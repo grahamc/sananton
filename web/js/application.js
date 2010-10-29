@@ -52,7 +52,7 @@ $(document).ready(function() {
   // submit the category drop-down on change
   $('#category_select').change(function() {
     var slug = $(this).val();
-    window.location = 'http://' + location.host + '/category/' + slug;
+    window.location = 'http://' + location.host + $('body').attr('root') + 'category/' + slug;
   });
 });
 

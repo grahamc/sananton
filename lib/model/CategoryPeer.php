@@ -17,5 +17,8 @@
  * @package    lib.model
  */
 class CategoryPeer extends BaseCategoryPeer {
-
+    public static function getAll() {
+        $c = new Criteria();
+        return self::doSelect($c);
+    }
 } // CategoryPeer

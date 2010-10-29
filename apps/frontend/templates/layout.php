@@ -10,9 +10,9 @@
         <?php include_javascripts() ?>
     </head>
     
-    <body>
+    <body root="<?php echo sfConfig::get('app_root_url'); ?>">
         <div id="container">
-            <h1 class="main_h1"><a href="/"><?php echo sfConfig::get('app_website_name'); ?></a></h1>
+            <h1 class="main_h1"><?php echo link_to(sfConfig::get('app_website_name'), '@homepage'); ?></h1>
             <h1 class="sub_h1">tech community</h1>
             <div class="clear"></div>
             

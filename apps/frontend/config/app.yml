@@ -1,5 +1,10 @@
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/11-App
 
+dev:
+  root_url: /frontend_dev.php/
+prod:
+  root_url: /
+
 # default values
 #all:

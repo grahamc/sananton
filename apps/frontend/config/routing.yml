@@ -4,7 +4,13 @@
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: person, action: list }
+
+people_by_category:
+    url:   /category/:slug
+    class: sfPropelRoute
+    options: { model: Category, type: object }
+    param: { module: person, action: listByCategory }
 
 # generic rules
 # please, remove them by adding more specific rules

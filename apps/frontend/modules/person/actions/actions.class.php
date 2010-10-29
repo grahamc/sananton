@@ -1,16 +1,27 @@
 <?php
 class personActions extends sfActions {
-    protected $per_page = 1;
+    protected $per_page = 15;
     
     
     public function executeList(sfWebRequest $request) {
         $this->renderList($request);
     }
     
+    public function executeListByCategory(sfWebRequest $request) {
+        $obj = $this->getRoute()->getObject();
+        
+        $c = new Criteria();
+        $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
+        $c->add(PersonCategoryPeer::CATEGORY_ID, $obj->getId());
+        
+        $this->renderList($request, $c);
+    }
+    
     public function renderList(sfWebRequest $request, Criteria $c = null) {
         $this->page = $request->getParameter('page', 1);
         
         $this->people = PersonPeer::getActiveByPage($this->page, $this->per_page, $c);
+        
         
         $counts = PersonPeer::countActive($c);
         
