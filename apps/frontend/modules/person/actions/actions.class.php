@@ -8,14 +8,14 @@ class personActions extends sfActions {
     }
     
     public function renderList(sfWebRequest $request, Criteria $c = null) {
-        $page = $request->getParameter('page', 1);
+        $this->page = $request->getParameter('page', 1);
         
-        $this->people = PersonPeer::getActiveByPage($page, $this->per_page, $c);
+        $this->people = PersonPeer::getActiveByPage($this->page, $this->per_page, $c);
         
         $counts = PersonPeer::countActive($c);
         
         // Calculate the number of photos displayed on previous pages
-        $prev_person_count = ($page - 1) * $this->per_page;
+        $prev_person_count = ($this->page - 1) * $this->per_page;
         
         // If we've displayed less than the total photos
         if ($prev_person_count + count($this->people) < $counts) {
@@ -24,6 +24,12 @@ class personActions extends sfActions {
             $this->multiple_pages = false;
         }
         
-        $this->setTemplate('list');
+        // Serve the JavaScript version if we need to
+        if ($request->isXmlHttpRequest()) {
+            $this->setTemplate('listJS');            
+        } else {
+            $this->setTemplate('list');
+        }
+
     }
 }

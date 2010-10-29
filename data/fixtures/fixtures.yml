@@ -1,9 +1,16 @@
+
 Person:
   Person_1:
     name: 'Graham Christensen'
     website: 'http://grahamc.com'
     email: graham@grahamc.com
-    image: 'http://www.facebook.com/profile/pic.php?oid=AQC10KrJSTmep5vfLAFl-Q2Fax7dFFo68yjTdDJP6FuyyeKgA5l6wXh97hoFdmLgwVo&size=normal'
+    image: /uploads/graham_christensen.jpg
+    validated_at: '2010-10-28'
+  Person_2:
+    name: 'Bob Johnson'
+    website: 'http://foo.com'
+    email: graham@bvar.com
+    image: /uploads/bob_johnson.gif
     validated_at: '2010-10-28'
 
 Category:
@@ -36,9 +43,16 @@ Category:
     slug: user-experience
 
 PersonCategory:
+  PersonCategory_2_1:
+    person_id: Person_2
+    category_id: Category_1
   PersonCategory_1_3:
     person_id: Person_1
     category_id: Category_3
+  PersonCategory_2_5:
+    person_id: Person_2
+    category_id: Category_5
   PersonCategory_1_8:
     person_id: Person_1
     category_id: Category_8
+

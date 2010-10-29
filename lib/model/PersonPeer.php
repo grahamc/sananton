@@ -48,6 +48,7 @@ class PersonPeer extends BasePersonPeer {
         }
         
         $c->add(PersonPeer::VALIDATED_AT, null, Criteria::ISNOTNULL);
+        $c->addDescendingOrderByColumn(PersonPeer::ID);
         return PersonPeer::doSelect($c);
     }
     

@@ -26,7 +26,9 @@ class Person extends BasePerson {
      * @return array(Category, Category, ... )
      */
     public function getCategories() {
-        $rels = $this->getPersonCategorysJoinCategory();
+        $c = new Criteria();
+        $c->addAscendingOrderByColumn(PersonCategoryPeer::CATEGORY_ID);
+        $rels = $this->getPersonCategorysJoinCategory($c);
         $cats = array();
         foreach ($rels as $rel) {
             $cats[] = $rel->getCategory();
