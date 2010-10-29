@@ -8,10 +8,6 @@
         
         <?php include_stylesheets() ?>
         <?php include_javascripts() ?>
-        
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="/stylesheets/ie.css" type="text/css" media="screen" />
-        <![endif]-->
     </head>
     
     <body>
