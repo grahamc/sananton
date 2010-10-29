@@ -4,7 +4,7 @@ propel:
     defaultIdMethod: native
   category:
     _attributes: { phpName: Category }
-    id: { type: INTEGER, size: '11', primaryKey: true, required: true }
+    id: { type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
     name: { type: VARCHAR, size: '20', required: true, index: unique }
     slug: { type: VARCHAR, size: '20', required: true, index: unique }
   person:

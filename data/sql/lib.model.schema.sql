@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS `category`;
 
 CREATE TABLE `category`
 (
-	`id` INTEGER(11)  NOT NULL,
+	`id` INTEGER(11)  NOT NULL AUTO_INCREMENT,
 	`name` VARCHAR(20)  NOT NULL,
 	`slug` VARCHAR(20)  NOT NULL,
 	PRIMARY KEY (`id`),
