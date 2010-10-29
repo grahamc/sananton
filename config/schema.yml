@@ -1,0 +1,24 @@
+propel:
+  _attributes:
+    package: lib.model
+    defaultIdMethod: native
+  category:
+    _attributes: { phpName: Category }
+    id: { type: INTEGER, size: '11', primaryKey: true, required: true }
+    name: { type: VARCHAR, size: '20', required: true, index: unique }
+    slug: { type: VARCHAR, size: '20', required: true, index: unique }
+  person:
+    _attributes: { phpName: Person }
+    id: { type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    name: { type: VARCHAR, size: '255', required: true }
+    website: { type: VARCHAR, size: '255', required: true, index: unique }
+    email: { type: VARCHAR, size: '255', required: true, index: unique }
+    image: { type: VARCHAR, size: '255', required: true }
+    validated_at: { type: TIMESTAMP, required: true }
+    created_at: { type: TIMESTAMP, required: true }
+    updated_at: { type: TIMESTAMP, required: true }
+  person_category:
+    _attributes: { phpName: PersonCategory }
+    person_id: { type: INTEGER, size: '11', required: true, foreignTable: person, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    category_id: { type: INTEGER, size: '11', required: true, foreignTable: category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
+    _uniques: { category_slug: [person_id, category_id] }
