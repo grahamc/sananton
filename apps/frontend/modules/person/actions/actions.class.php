@@ -1,8 +1,13 @@
 <?php
 class personActions extends sfActions {
-    protected $per_page = 15;
     
+    public function executeNew(sfWebRequest $request) {
+        $this->form = new PersonForm();
+    }
     
+    /**
+     * List-based methods follow
+     */
     public function executeList(sfWebRequest $request) {
         $this->renderList($request);
     }
@@ -18,6 +23,8 @@ class personActions extends sfActions {
     }
     
     public function renderList(sfWebRequest $request, Criteria $c = null) {
+        $this->per_page = 15;
+        
         $this->page = $request->getParameter('page', 1);
         
         $this->people = PersonPeer::getActiveByPage($this->page, $this->per_page, $c);

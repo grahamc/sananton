@@ -21,7 +21,7 @@
 
         <div id="footer"> 
             <div id="footer-inner"> 
-                <p class="footer-links"><a href="/members/new">Join the Club</a></p> 
+                <p class="footer-links"><?php echo link_to('Get Listed', 'http://example.com/'); ?> | <?php echo link_to('Edit Your Listing', 'http://example.com/'); ?></p> 
                 <p class="byline">
                     Stolen by <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?>
                     from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>

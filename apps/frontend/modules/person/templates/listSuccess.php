@@ -1,7 +1,7 @@
 <?php include_partial('person/categories', array('category' => isset($category)?$category:null)); ?>
 
 <p class="edit_listing">
-  <a href="/member/edit">Edit Your Listing &rarr;</a>
+    <?php echo link_to('Get Listed  &rarr;', 'http://example.com/'); ?>
 </p>
 
 <div class="clear"></div>
