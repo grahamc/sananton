@@ -8,11 +8,11 @@ class personActions extends sfActions {
     }
     
     public function executeListByCategory(sfWebRequest $request) {
-        $obj = $this->getRoute()->getObject();
+        $this->category = $this->getRoute()->getObject();
         
         $c = new Criteria();
         $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
-        $c->add(PersonCategoryPeer::CATEGORY_ID, $obj->getId());
+        $c->add(PersonCategoryPeer::CATEGORY_ID, $this->category->getId());
         
         $this->renderList($request, $c);
     }
