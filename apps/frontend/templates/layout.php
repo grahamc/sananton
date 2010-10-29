@@ -22,12 +22,12 @@
         <div id="footer"> 
             <div id="footer-inner"> 
                 <p class="footer-links"><a href="/members/new">Join the Club</a></p> 
-                <p class="byline"> 
-                    Created by <a href="http://travisonrails.com" onclick="window.open(this.href);return false;">Travis Roberts</a> &nbsp;|&nbsp;
-                    Inspired by <a href="http://chriskalani.com/" onclick="window.open(this.href);return false;">Chris Kalani</a> &nbsp;|&nbsp;
-                    Ported to symfony by <a href="http://grahamc.com/" onclick="window.open(this.href);return false;">Graham Christensen</a>
-                    and <a href="http://prtlnd.com" onclick="window.open(this.href);return false;">prtlnd.com</a> 
-                </p> 
+                <p class="byline">
+                    Stolen by <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?>
+                    from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>
+                    who was inspired by <?php echo link_to('prtlnd.com', 'http://prtlnd.com', array('target' => '_blank')); ?>.
+                    By the way, I'm on <?php echo link_to('Github', 'http://github.com/grahamc/sananton'); ?>.
+                </p>
             </div>
         </div>
     </body>
