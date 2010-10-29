@@ -12,9 +12,18 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [main.css]
+  stylesheets:
+    - 'reset.css?<?php echo time(); ?>'
+    - 'text.css?<?php echo time(); ?>'
+    - 'uniform.css?<?php echo time(); ?>'
+    - 'sananton.css?<?php echo time(); ?>'
+    - ie.css<?php echo time(); ?>: { condition: IE 8 }
 
-  javascripts:    []
+  javascripts:
+    - 'jquery-1.4.2.min.js?<?php echo time(); ?>'
+    - 'jquery.easing.1.3.js?<?php echo time(); ?>'
+    - 'jquery.uniform.min.js?<?php echo time(); ?>'
+    - 'application.js?<?php echo time(); ?>'
 
   has_layout:     true
   layout:         layout
