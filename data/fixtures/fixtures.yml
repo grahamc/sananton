@@ -1,17 +1,44 @@
-# # Populate this file with data to be loaded by your ORM's *:data-load task.
-# # You can create multiple files in this directory (i.e. 010_users.yml,
-# # 020_articles.yml, etc) which will be loaded in alphabetical order.
-# # 
-# # See documentation for your ORM's *:data-load task for more information.
-# 
-# User:
-#   fabien:
-#     username: fabien
-#     password: changeme
-#     name:     Fabien Potencier
-#     email:    fabien.potencier@symfony-project.com
-#   kris:
-#     username: Kris.Wallsmith
-#     password: changeme
-#     name:     Kris Wallsmith
-#     email:    kris.wallsmith@symfony-project.com
+Person:
+  Person_1:
+    name: 'Graham Christensen'
+    website: 'http://grahamc.com'
+    email: graham@grahamc.com
+    image: 'http://www.facebook.com/profile/pic.php?oid=AQC10KrJSTmep5vfLAFl-Q2Fax7dFFo68yjTdDJP6FuyyeKgA5l6wXh97hoFdmLgwVo&size=normal'
+    validated_at: '2010-10-28'
+
+Category:
+  Category_1:
+    name: Blogger
+    slug: blogger
+  Category_2:
+    name: Copywriter
+    slug: copywriter
+  Category_3:
+    name: Developer
+    slug: developer
+  Category_4:
+    name: Entrepreneur
+    slug: entrepreneur
+  Category_5:
+    name: 'Project Manager'
+    slug: project-manager
+  Category_6:
+    name: 'SEO Specialist'
+    slug: seo-specialist
+  Category_7:
+    name: Strategist
+    slug: strategist
+  Category_8:
+    name: Sysadmin
+    slug: sysadmin
+  Category_9:
+    name: 'User Experience'
+    slug: user-experience
+
+PersonCategory:
+  PersonCategory_1_3:
+    person_id: Person_1
+    category_id: Category_3
+  PersonCategory_1_8:
+    person_id: Person_1
+    category_id: Category_8

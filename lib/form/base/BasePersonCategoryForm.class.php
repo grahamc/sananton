@@ -14,15 +14,13 @@ abstract class BasePersonCategoryForm extends BaseFormPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'person_id'   => new sfWidgetFormPropelChoice(array('model' => 'Person', 'add_empty' => false)),
-      'category_id' => new sfWidgetFormPropelChoice(array('model' => 'Category', 'add_empty' => false)),
-      'id'          => new sfWidgetFormInputHidden(),
+      'person_id'   => new sfWidgetFormInputHidden(),
+      'category_id' => new sfWidgetFormInputHidden(),
     ));
 
     $this->setValidators(array(
-      'person_id'   => new sfValidatorPropelChoice(array('model' => 'Person', 'column' => 'id')),
-      'category_id' => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id')),
-      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
+      'person_id'   => new sfValidatorPropelChoice(array('model' => 'Person', 'column' => 'id', 'required' => false)),
+      'category_id' => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(

@@ -17,5 +17,13 @@
  * @package    lib.model
  */
 class PersonPeer extends BasePersonPeer {
-
+    /**
+     * Get active people, which are to be displayed
+     * @return array(Person, Person, ...)
+     */
+    public static function getActive() {
+        $c = new Criteria();
+        $c->add(PersonPeer::VALIDATED_AT, null, Criteria::ISNOTNULL);
+        return PersonPeer::doSelect($c);
+    }
 } // PersonPeer

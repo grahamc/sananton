@@ -34,9 +34,9 @@ CREATE TABLE `person`
 	`website` VARCHAR(255)  NOT NULL,
 	`email` VARCHAR(255)  NOT NULL,
 	`image` VARCHAR(255)  NOT NULL,
-	`validated_at` DATETIME  NOT NULL,
-	`created_at` DATETIME  NOT NULL,
-	`updated_at` DATETIME  NOT NULL,
+	`validated_at` DATETIME,
+	`created_at` DATETIME,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `person_U_1` (`website`),
 	UNIQUE KEY `person_U_2` (`email`)
@@ -53,8 +53,7 @@ CREATE TABLE `person_category`
 (
 	`person_id` INTEGER(11)  NOT NULL,
 	`category_id` INTEGER(11)  NOT NULL,
-	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (`id`),
+	PRIMARY KEY (`person_id`,`category_id`),
 	UNIQUE KEY `category_slug` (`person_id`, `category_id`),
 	CONSTRAINT `person_category_FK_1`
 		FOREIGN KEY (`person_id`)

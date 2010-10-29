@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
-        <title>SANANTON.IO tech community</title>
+        <?php include_title(); ?>
         <?php include_http_metas() ?>
         <?php include_metas() ?>
         
@@ -12,7 +12,7 @@
     
     <body>
         <div id="container">
-            <h1 class="main_h1"><a href="/">SANANTON.IO</a></h1>
+            <h1 class="main_h1"><a href="/"><?php echo sfConfig::get('app_website_name'); ?></a></h1>
             <h1 class="sub_h1">tech community</h1>
             <div class="clear"></div>
             

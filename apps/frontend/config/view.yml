@@ -6,6 +6,7 @@ default:
     content-type: text/html
 
   metas:
+    title: <?php echoLn(sfConfig::get('app_website_name') . ' tech community'); ?>
     #title:        symfony project
     #description:  symfony project
     #keywords:     symfony, project

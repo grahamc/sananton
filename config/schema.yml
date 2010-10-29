@@ -14,11 +14,11 @@ propel:
     website: { type: VARCHAR, size: '255', required: true, index: unique }
     email: { type: VARCHAR, size: '255', required: true, index: unique }
     image: { type: VARCHAR, size: '255', required: true }
-    validated_at: { type: TIMESTAMP, required: true }
-    created_at: { type: TIMESTAMP, required: true }
-    updated_at: { type: TIMESTAMP, required: true }
+    validated_at: { type: TIMESTAMP }
+    created_at: { type: TIMESTAMP }
+    updated_at: { type: TIMESTAMP }
   person_category:
     _attributes: { phpName: PersonCategory }
-    person_id: { type: INTEGER, size: '11', required: true, foreignTable: person, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
-    category_id: { type: INTEGER, size: '11', required: true, foreignTable: category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
+    person_id: { type: INTEGER, size: '11', primaryKey: true, required: true, foreignTable: person, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
+    category_id: { type: INTEGER, size: '11', primaryKey: true, required: true, foreignTable: category, foreignReference: id, onDelete: RESTRICT, onUpdate: CASCADE }
     _uniques: { category_slug: [person_id, category_id] }

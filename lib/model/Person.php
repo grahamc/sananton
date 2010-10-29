@@ -17,5 +17,21 @@
  * @package    lib.model
  */
 class Person extends BasePerson {
-
+    public function __toString() {
+        return $this->getName();
+    }
+    
+    /**
+     * Get categories for this person
+     * @return array(Category, Category, ... )
+     */
+    public function getCategories() {
+        $rels = $this->getPersonCategorysJoinCategory();
+        $cats = array();
+        foreach ($rels as $rel) {
+            $cats[] = $rel->getCategory();
+        }
+        
+        return $cats;
+    }
 } // Person
