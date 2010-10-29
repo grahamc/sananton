@@ -15,7 +15,7 @@ a:hover { color:#fff; }
 h1 { color:#c3c1be; font:normal 28px/100% 'Grablau Web', helvetica, arial, sans-serif; }
 p { color:#c3c1be; font-family:helvetica, arial, sans-serif; }
 label { color:#c3c1be; display:block; float:left; font-size:20px; line-height:33px; margin:0 15px 0 0; width:85px; }
-label.category_label { display:inline; float:none; font-size:16px; margin:0; width:auto; }
+ul.checkbox_list li label { display:inline; float:none; font-size:16px; margin:0; width:auto; }
 input[type="text"] { border:1px solid #999; font-size:18px; margin:0 0 3px 0; padding:5px; }
 input[type="file"] { color:#000; font-size:14px; margin:10px 0 0 0; }
 
@@ -47,8 +47,8 @@ input[type="file"] { color:#000; font-size:14px; margin:10px 0 0 0; }
 .submit { padding:0 0 0 275px; }
 .submit input { background-color:#282728; border:1px solid #000; border-radius:4px; color:#bfbfbf; font-size:20px; padding:10px; -webkit-border-radius:4px; -moz-border-radius:8px; -webkit-transition:background-color 0.1s ease-in; -moz-transition:background-color 0.1s ease-in; -o-transition:background-color 0.1s ease-in; transition:background-color 0.1s ease-in; }
 .submit input:hover { cursor:pointer; background-color:rgba(40, 39, 40, 0.8); }
-.member_categories { margin:0 0 0 100px; padding:0; width:350px; }
-.member_categories li { color:#c3c1be; display:inline-block; font-size:16px; margin:0 10px 5px 0; padding:0; }
+.checkbox_list { margin:0 0 0 100px; padding:0; width:350px; }
+.checkbox_list li { color:#c3c1be; display:inline-block; font-size:16px; margin:0 10px 5px 0; padding:0; }
 .member_entry { float:left; height:200px; margin:0 25px 25px 0; overflow:hidden; position:relative; width:200px; }
 .member_entry img { position:absolute; left:0; top:0; }
 .member_entry .member_info { background-color:rgba(0, 0, 0, 0.80); color:#fff; padding:5px 10px 25px 10px; position:absolute; left:0; top:160px; width:180px; }
