@@ -17,14 +17,19 @@ class personActions extends sfActions {
     }
     
     public function executeRequestEdit(sfWebRequest $request) {
-        $email = $request->getParameter('email');
-        $person = PersonPeer::getByEmail($email);
-        $this->forward404Unless($person instanceof Person, 'Invalid email address, sorry.');
+        if ($request->hasParameter('email')) {
+            $email = $request->getParameter('email');
+            $person = PersonPeer::getByEmail($email);
+            $this->forward404Unless($person instanceof Person, 'Invalid email address, sorry.');
         
-        $hash = $person->createHash();
+            $hash = $person->createHash();
         
-        $msg = new PersonEditMessage($hash);
-        $this->getMailer()->send($msg);
+            $msg = new PersonEditMessage($hash);
+            $this->getMailer()->send($msg);
+            
+            $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the edit link.');
+            $this->redirect('@homepage');
+        }
     }
     
     /**
