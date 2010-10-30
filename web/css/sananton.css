@@ -8,6 +8,8 @@
   src: local('â˜º'), url('/fonts/Inconsolata.ttf') format('truetype');
 }
 
+.error_list { color: red; }
+
 html, body { background-color:#0f0f0f; height:100%; margin:0; padding:0; }
 body { padding:20px 0 0 0; }
 a, a:link, a:visited { text-decoration:none; color:#bfbfbf; -webkit-transition:color 0.2s ease-in; -moz-transition:color 0.2s ease-in; -o-transition:color 0.2s ease-in; transition:color 0.2s ease-in; }

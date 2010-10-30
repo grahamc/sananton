@@ -12,6 +12,14 @@ people_by_category:
     options: { model: Category, type: object }
     param: { module: person, action: listByCategory }
 
+person_new:
+    url: /join
+    param: { module: person, action: new }
+
+person_create:
+    url: /join/save
+    param: { module: person, action: create }
+
 # generic rules
 # please, remove them by adding more specific rules
 default_index:

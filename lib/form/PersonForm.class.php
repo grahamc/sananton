@@ -23,8 +23,27 @@ class PersonForm extends BasePersonForm
           $this->widgetSchema->setHelp($w, $h);
       }
       
+      $this->setWidget('image', new sfWidgetFormInputFile());
+      $this->setValidator('image', new sfValidatorFile(array(
+          'mime_types' => array('image/jpeg',
+          'image/pjpeg',
+          'image/png',
+          'image/x-png'),
+          'path' => sfConfig::get('sf_upload_dir').'/people',
+        )));
+      
+      // Prettify the categories
       $this->widgetSchema->setLabel('person_category_list', 'What are you?');
       $this->getWidget('person_category_list')->setOption('expanded', true);
+      
+      // Setup the post validators with pretty messages
+      $this->validatorSchema->setPostValidator(
+        new sfValidatorAnd(array(
+          new sfValidatorPropelUnique(array('model' => 'Person', 'column' => array('website')), array('invalid' => 'Sorry, that website has already been used.')),
+          new sfValidatorPropelUnique(array('model' => 'Person', 'column' => array('email')), array('invalid' => 'Sorry, that email address has already been used.')),
+        ))
+      );
+      
       $this->useFields(array('name', 'website', 'email', 'image', 'person_category_list'));
   }
 }

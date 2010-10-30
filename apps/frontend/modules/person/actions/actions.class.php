@@ -5,6 +5,18 @@ class personActions extends sfActions {
         $this->form = new PersonForm();
     }
     
+    public function executeCreate(sfWebRequest $request) {
+        $this->form = new PersonForm();
+        $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+        
+        if ($this->form->isValid()) {
+            $this->form->save();
+            $this->redirect('@homepage');
+        }
+        
+        $this->setTemplate('new');
+    }
+    
     /**
      * List-based methods follow
      */
