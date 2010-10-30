@@ -18,6 +18,23 @@ class personActions extends sfActions {
         $this->setTemplate('new');
     }
     
+    public function executeEdit(sfWebRequest $request) {
+        $this->form = new PersonForm($this->getRoute()->getObject());
+        $this->setTemplate('new');
+    }
+    
+    public function executeSave(sfWebRequest $request) {
+        $this->form = new PersonForm($this->getRoute()->getObject());
+        $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+        
+        if ($this->form->isValid()) {
+            $person = $this->form->save();
+            $this->redirect('@homepage');
+        }
+        
+        $this->setTemplate('new');
+    }
+    
     /**
      * List-based methods follow
      */

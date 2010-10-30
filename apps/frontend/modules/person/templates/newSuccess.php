@@ -1,8 +1,17 @@
+<?php
+if ($form->getObject()->isNew()) {
+    $route = '@person_create';
+} else {
+    $route = '@person_save?id=' . $form->getObject()->getId();
+}
+?>
 <h1 class="add_listing">Add Yourself</h1>
 
 <p>*All fields are required.</p>
-<form action="<?php echo url_for('@person_create'); ?>" class="new_member" enctype="multipart/form-data" id="new_member" method="post">
-
+<form action="<?php echo url_for($route); ?>" class="new_member" enctype="multipart/form-data" id="new_member" method="post">
+<?php if (!$form->getObject()->isNew()) { ?>
+    <input type="hidden" name="sf_method" value="put" />
+<?php } ?>
 <?php echo $form->renderHiddenFields(); ?>
 <?php foreach ($form as $field_name => $field) { if ($field->isHidden()) { continue; }?>
       <p>

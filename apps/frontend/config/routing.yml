@@ -5,20 +5,44 @@
 homepage:
   url:   /
   param: { module: person, action: list }
+  requirements:
+    sf_method: get
 
 people_by_category:
     url:   /category/:slug
     class: sfPropelRoute
     options: { model: Category, type: object }
     param: { module: person, action: listByCategory }
-
+    requirements:
+      sf_method: get
+      
 person_new:
     url: /join
     param: { module: person, action: new }
-
+    requirements:
+      sf_method: get
+      
 person_create:
     url: /join/save
     param: { module: person, action: create }
+    requirements:
+      sf_method: post
+      
+person_edit:
+    url:   /edit/:id
+    class: sfPropelRoute
+    options: { model: Person, type: object }
+    param: { module: person, action: edit }
+    requirements:
+      sf_method: get
+      
+person_save:
+    url:   /save/:id
+    class: sfPropelRoute
+    options: { model: Person, type: object }
+    param: { module: person, action: save }
+    requirements:
+      sf_method: put
 
 # generic rules
 # please, remove them by adding more specific rules

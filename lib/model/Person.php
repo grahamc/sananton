@@ -28,6 +28,10 @@ class Person extends BasePerson {
         return sfConfig::get('sf_upload_dir') . '/people/' . $this->getImage();
     }
     
+    public function getImageWebPath() {
+        return '/uploads/people/' . $this->getImage();
+    }
+    
     /**
      * Get categories for this person
      * @return array(Category, Category, ... )

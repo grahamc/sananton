@@ -15,7 +15,7 @@ class PersonForm extends BasePersonForm
           'name' => 'Who are you?',
           'email' => 'Required to activate your account.<br />Not shown, sold, or spammed.',
           'website' => 'You have one... right?',
-          'image' => 'Image will be cropped t o a 200x200 square.',
+          'image' => 'Image will be cropped to a 200x200 square.',
           'person_category_list' => "Choose <strong>up to 3</strong> categories.<br />Don't see yours? "
                                     . '<a href="' . sfConfig::get('app_help_link') . '" target="blank">Let me know.</a>'
           );
@@ -23,7 +23,7 @@ class PersonForm extends BasePersonForm
           $this->widgetSchema->setHelp($w, $h);
       }
       
-      $this->setWidget('image', new sfWidgetFormInputFile());
+      
       $this->setValidator('image', new sfValidatorFile(array(
           'mime_types' => array('image/jpeg',
           'image/pjpeg',
@@ -31,6 +31,22 @@ class PersonForm extends BasePersonForm
           'image/x-png'),
           'path' => sfConfig::get('sf_upload_dir').'/people',
         )));
+      
+      if ($this->getObject()->getImage() == null) {
+          $this->setWidget('image', new sfWidgetFormInputFile());
+      } else {
+          $options = array(
+              'file_src' => $this->getObject()->getImageWebPath(),
+              'is_image' => true,
+              'with_delete' => false,
+              'delete_label' => false,
+              'edit_mode' => true
+              
+              );
+          $this->setWidget('image', new sfWidgetFormInputFileEditable($options));
+          $this->getValidator('image')->setOption('required', false);
+      }
+
         
         $this->setValidator('email', new sfValidatorEmail());
         $this->setValidator('website', new sfValidatorUrl());
