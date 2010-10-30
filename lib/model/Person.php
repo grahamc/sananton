@@ -38,8 +38,12 @@ class Person extends BasePerson {
     }
     
     public function getImageWebPath() {
-        return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->getEmail()))) . '.jpg?s=200&d=mm';
-        return '/uploads/people/' . $this->getImage();
+        // Use gravatar if they didn't upload an image
+        if ($this->getImage() == null) {
+            return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->getEmail()))) . '.jpg?s=200&d=mm';
+        } else {
+            return '/uploads/people/' . $this->getImage();            
+        }
     }
     
     /**
@@ -59,7 +63,7 @@ class Person extends BasePerson {
     }
     
     public function save(PropelPDO $con = null) {
-        if (in_array(PersonPeer::IMAGE, $this->modifiedColumns)) {
+        if (in_array(PersonPeer::IMAGE, $this->modifiedColumns) && $this->getImage() != null) {
             // Re-size their image now
             //$thumbnailer = new sfThumbnail(null, 200);
             $thumbnailer = new sfThumbnail(200, 200, false, true, 75, 'sfImageMagickAdapter', array('method' => 'shave_bottom'));

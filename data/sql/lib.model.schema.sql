@@ -33,7 +33,7 @@ CREATE TABLE `person`
 	`name` VARCHAR(255)  NOT NULL,
 	`website` VARCHAR(255)  NOT NULL,
 	`email` VARCHAR(255)  NOT NULL,
-	`image` VARCHAR(255)  NOT NULL,
+	`image` VARCHAR(255),
 	`validated_at` DATETIME,
 	`created_at` DATETIME,
 	`updated_at` DATETIME,

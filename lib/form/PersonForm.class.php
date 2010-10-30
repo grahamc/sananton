@@ -15,7 +15,7 @@ class PersonForm extends BasePersonForm
           'name' => 'Who are you?',
           'email' => 'Required to activate your account.<br />Not shown, sold, or spammed.',
           'website' => 'You have one... right?',
-          'image' => 'Image will be cropped to a 200x200 square.',
+          'image' => 'Gravatar will be used if you don\'t upload one.<br />Uploaded image are cropped to a 200x200 square.',
           'person_category_list' => "Choose <strong>up to 3</strong> categories.<br />Don't see yours? "
                                     . '<a href="' . sfConfig::get('app_help_link') . '" target="blank">Let me know.</a>'
           );
@@ -39,13 +39,13 @@ class PersonForm extends BasePersonForm
               'file_src' => $this->getObject()->getImageWebPath(),
               'is_image' => true,
               'with_delete' => false,
-              'delete_label' => false,
+              'delete_label' => true,
               'edit_mode' => true
               
               );
           $this->setWidget('image', new sfWidgetFormInputFileEditable($options));
-          $this->getValidator('image')->setOption('required', false);
       }
+      $this->getValidator('image')->setOption('required', false);
 
         
         $this->setValidator('email', new sfValidatorEmail());
