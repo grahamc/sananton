@@ -18,6 +18,16 @@
  */
 class PersonPeer extends BasePersonPeer {
     /**
+     * Get a person by their email address
+     * @return Person
+     */
+    public static function getByEmail($email) {
+        $c = new Criteria();
+        $c->add(self::EMAIL, $email);
+        return self::doSelectOne($c);
+    }
+    
+    /**
      * Get active users by page
      * @param int $page which page to retrieve
      * @param int $per_page how many to retrieve per page

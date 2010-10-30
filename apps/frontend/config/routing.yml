@@ -2,6 +2,14 @@
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
 # default rules
+person_edit_request:
+    url: /request
+    class: sfPropelRoute
+    options: { model: PersonHash, type: object }
+    param: { module: person, action: requestEdit }
+    requirements:
+      sf_method: get
+      
 homepage:
   url:   /
   param: { module: person, action: list }
