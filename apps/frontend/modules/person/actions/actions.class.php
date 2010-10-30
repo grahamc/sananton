@@ -1,5 +1,5 @@
 <?php
-class personActions extends sfActions {
+class personActions extends myActions {
     /**
      * Validate the person
      */
@@ -20,7 +20,7 @@ class personActions extends sfActions {
         if ($request->hasParameter('email')) {
             $email = $request->getParameter('email');
             $person = PersonPeer::getByEmail($email);
-            $this->forward404Unless($person instanceof Person, 'Invalid email address, sorry.');
+            $this->forward404Unless($person instanceof Person, 'No such email address, sorry.');
         
             $hash = $person->createHash();
         
