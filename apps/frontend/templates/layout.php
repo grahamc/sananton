@@ -35,6 +35,7 @@
                     from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>
                     who was inspired by <?php echo link_to('prtlnd.com', 'http://prtlnd.com', array('target' => '_blank')); ?>.
                     By the way, I'm on <?php echo link_to('Github', 'http://github.com/grahamc/sananton'); ?>.
+					<?php echo link_to('Hosting by ZippyKid', 'http://zippykid.com'); ?>
                 </p>
             </div>
         </div>
