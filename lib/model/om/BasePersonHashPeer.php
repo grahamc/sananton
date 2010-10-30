@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base static class for performing query and update operations on the 'person_category' table.
+ * Base static class for performing query and update operations on the 'person_hash' table.
  *
  * 
  *
@@ -11,40 +11,43 @@
  *
  * @package    lib.model.om
  */
-abstract class BasePersonCategoryPeer {
+abstract class BasePersonHashPeer {
 
 	/** the default database name for this class */
 	const DATABASE_NAME = 'propel';
 
 	/** the table name for this class */
-	const TABLE_NAME = 'person_category';
+	const TABLE_NAME = 'person_hash';
 
 	/** the related Propel class for this table */
-	const OM_CLASS = 'PersonCategory';
+	const OM_CLASS = 'PersonHash';
 
 	/** A class that can be returned by this peer. */
-	const CLASS_DEFAULT = 'lib.model.PersonCategory';
+	const CLASS_DEFAULT = 'lib.model.PersonHash';
 
 	/** the related TableMap class for this table */
-	const TM_CLASS = 'PersonCategoryTableMap';
+	const TM_CLASS = 'PersonHashTableMap';
 	
 	/** The total number of columns. */
-	const NUM_COLUMNS = 2;
+	const NUM_COLUMNS = 3;
 
 	/** The number of lazy-loaded columns. */
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 	/** the column name for the PERSON_ID field */
-	const PERSON_ID = 'person_category.PERSON_ID';
+	const PERSON_ID = 'person_hash.PERSON_ID';
 
-	/** the column name for the CATEGORY_ID field */
-	const CATEGORY_ID = 'person_category.CATEGORY_ID';
+	/** the column name for the EMAIL field */
+	const EMAIL = 'person_hash.EMAIL';
+
+	/** the column name for the CREATED_AT field */
+	const CREATED_AT = 'person_hash.CREATED_AT';
 
 	/**
-	 * An identiy map to hold any loaded instances of PersonCategory objects.
+	 * An identiy map to hold any loaded instances of PersonHash objects.
 	 * This must be public so that other peer classes can access this when hydrating from JOIN
 	 * queries.
-	 * @var        array PersonCategory[]
+	 * @var        array PersonHash[]
 	 */
 	public static $instances = array();
 
@@ -63,11 +66,11 @@ abstract class BasePersonCategoryPeer {
 	 * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
 	 */
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('PersonId', 'CategoryId', ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('personId', 'categoryId', ),
-		BasePeer::TYPE_COLNAME => array (self::PERSON_ID, self::CATEGORY_ID, ),
-		BasePeer::TYPE_FIELDNAME => array ('person_id', 'category_id', ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('PersonId', 'Email', 'CreatedAt', ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('personId', 'email', 'createdAt', ),
+		BasePeer::TYPE_COLNAME => array (self::PERSON_ID, self::EMAIL, self::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('person_id', 'email', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -77,11 +80,11 @@ abstract class BasePersonCategoryPeer {
 	 * e.g. self::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
 	 */
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('PersonId' => 0, 'CategoryId' => 1, ),
-		BasePeer::TYPE_STUDLYPHPNAME => array ('personId' => 0, 'categoryId' => 1, ),
-		BasePeer::TYPE_COLNAME => array (self::PERSON_ID => 0, self::CATEGORY_ID => 1, ),
-		BasePeer::TYPE_FIELDNAME => array ('person_id' => 0, 'category_id' => 1, ),
-		BasePeer::TYPE_NUM => array (0, 1, )
+		BasePeer::TYPE_PHPNAME => array ('PersonId' => 0, 'Email' => 1, 'CreatedAt' => 2, ),
+		BasePeer::TYPE_STUDLYPHPNAME => array ('personId' => 0, 'email' => 1, 'createdAt' => 2, ),
+		BasePeer::TYPE_COLNAME => array (self::PERSON_ID => 0, self::EMAIL => 1, self::CREATED_AT => 2, ),
+		BasePeer::TYPE_FIELDNAME => array ('person_id' => 0, 'email' => 1, 'created_at' => 2, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, )
 	);
 
 	/**
@@ -130,12 +133,12 @@ abstract class BasePersonCategoryPeer {
 	 *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
 	 * </code>
 	 * @param      string $alias The alias for the current table.
-	 * @param      string $column The column name for current table. (i.e. PersonCategoryPeer::COLUMN_NAME).
+	 * @param      string $column The column name for current table. (i.e. PersonHashPeer::COLUMN_NAME).
 	 * @return     string
 	 */
 	public static function alias($alias, $column)
 	{
-		return str_replace(PersonCategoryPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(PersonHashPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	/**
@@ -151,8 +154,9 @@ abstract class BasePersonCategoryPeer {
 	 */
 	public static function addSelectColumns(Criteria $criteria)
 	{
-		$criteria->addSelectColumn(PersonCategoryPeer::PERSON_ID);
-		$criteria->addSelectColumn(PersonCategoryPeer::CATEGORY_ID);
+		$criteria->addSelectColumn(PersonHashPeer::PERSON_ID);
+		$criteria->addSelectColumn(PersonHashPeer::EMAIL);
+		$criteria->addSelectColumn(PersonHashPeer::CREATED_AT);
 	}
 
 	/**
@@ -171,26 +175,26 @@ abstract class BasePersonCategoryPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(PersonHashPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
+			PersonHashPeer::addSelectColumns($criteria);
 		}
 
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 		$criteria->setDbName(self::DATABASE_NAME); // Set the correct dbName
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 		// BasePeer returns a PDOStatement
@@ -209,7 +213,7 @@ abstract class BasePersonCategoryPeer {
 	 *
 	 * @param      Criteria $criteria object used to create the SELECT statement.
 	 * @param      PropelPDO $con
-	 * @return     PersonCategory
+	 * @return     PersonHash
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -217,7 +221,7 @@ abstract class BasePersonCategoryPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = PersonCategoryPeer::doSelect($critcopy, $con);
+		$objects = PersonHashPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -234,7 +238,7 @@ abstract class BasePersonCategoryPeer {
 	 */
 	public static function doSelect(Criteria $criteria, PropelPDO $con = null)
 	{
-		return PersonCategoryPeer::populateObjects(PersonCategoryPeer::doSelectStmt($criteria, $con));
+		return PersonHashPeer::populateObjects(PersonHashPeer::doSelectStmt($criteria, $con));
 	}
 	/**
 	 * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -252,12 +256,12 @@ abstract class BasePersonCategoryPeer {
 	public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		if (!$criteria->hasSelectClause()) {
 			$criteria = clone $criteria;
-			PersonCategoryPeer::addSelectColumns($criteria);
+			PersonHashPeer::addSelectColumns($criteria);
 		}
 
 		// Set the correct dbName
@@ -265,7 +269,7 @@ abstract class BasePersonCategoryPeer {
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 
@@ -281,14 +285,14 @@ abstract class BasePersonCategoryPeer {
 	 * to the cache in order to ensure that the same objects are always returned by doSelect*()
 	 * and retrieveByPK*() calls.
 	 *
-	 * @param      PersonCategory $value A PersonCategory object.
+	 * @param      PersonHash $value A PersonHash object.
 	 * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
 	 */
-	public static function addInstanceToPool(PersonCategory $obj, $key = null)
+	public static function addInstanceToPool(PersonHash $obj, $key = null)
 	{
 		if (Propel::isInstancePoolingEnabled()) {
 			if ($key === null) {
-				$key = serialize(array((string) $obj->getPersonId(), (string) $obj->getCategoryId()));
+				$key = serialize(array((string) $obj->getPersonId(), (string) $obj->getEmail()));
 			} // if key === null
 			self::$instances[$key] = $obj;
 		}
@@ -302,18 +306,18 @@ abstract class BasePersonCategoryPeer {
 	 * methods in your stub classes -- you may need to explicitly remove objects
 	 * from the cache in order to prevent returning objects that no longer exist.
 	 *
-	 * @param      mixed $value A PersonCategory object or a primary key value.
+	 * @param      mixed $value A PersonHash object or a primary key value.
 	 */
 	public static function removeInstanceFromPool($value)
 	{
 		if (Propel::isInstancePoolingEnabled() && $value !== null) {
-			if (is_object($value) && $value instanceof PersonCategory) {
-				$key = serialize(array((string) $value->getPersonId(), (string) $value->getCategoryId()));
+			if (is_object($value) && $value instanceof PersonHash) {
+				$key = serialize(array((string) $value->getPersonId(), (string) $value->getEmail()));
 			} elseif (is_array($value) && count($value) === 2) {
 				// assume we've been passed a primary key
 				$key = serialize(array((string) $value[0], (string) $value[1]));
 			} else {
-				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or PersonCategory object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+				$e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or PersonHash object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
 				throw $e;
 			}
 
@@ -328,7 +332,7 @@ abstract class BasePersonCategoryPeer {
 	 * a multi-column primary key, a serialize()d version of the primary key will be returned.
 	 *
 	 * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-	 * @return     PersonCategory Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+	 * @return     PersonHash Found object or NULL if 1) no instance exists for specified key or 2) instance pooling has been disabled.
 	 * @see        getPrimaryKeyHash()
 	 */
 	public static function getInstanceFromPool($key)
@@ -352,7 +356,7 @@ abstract class BasePersonCategoryPeer {
 	}
 	
 	/**
-	 * Method to invalidate the instance pool of all tables related to person_category
+	 * Method to invalidate the instance pool of all tables related to person_hash
 	 * by a foreign key with ON DELETE CASCADE
 	 */
 	public static function clearRelatedInstancePool()
@@ -390,11 +394,11 @@ abstract class BasePersonCategoryPeer {
 		$results = array();
 	
 		// set the class once to avoid overhead in the loop
-		$cls = PersonCategoryPeer::getOMClass(false);
+		$cls = PersonHashPeer::getOMClass(false);
 		// populate the object(s)
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj = PersonCategoryPeer::getInstanceFromPool($key))) {
+			$key = PersonHashPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj = PersonHashPeer::getInstanceFromPool($key))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://propel.phpdb.org/trac/ticket/509
 				// $obj->hydrate($row, 0, true); // rehydrate
@@ -403,7 +407,7 @@ abstract class BasePersonCategoryPeer {
 				$obj = new $cls();
 				$obj->hydrate($row);
 				$results[] = $obj;
-				PersonCategoryPeer::addInstanceToPool($obj, $key);
+				PersonHashPeer::addInstanceToPool($obj, $key);
 			} // if key exists
 		}
 		$stmt->closeCursor();
@@ -427,14 +431,14 @@ abstract class BasePersonCategoryPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(PersonHashPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
+			PersonHashPeer::addSelectColumns($criteria);
 		}
 		
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
@@ -443,15 +447,15 @@ abstract class BasePersonCategoryPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
+		$criteria->addJoin(PersonHashPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
 
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -467,67 +471,11 @@ abstract class BasePersonCategoryPeer {
 
 
 	/**
-	 * Returns the number of rows matching criteria, joining the related Category table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinCategory(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
-
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
-		}
-		
-		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-		
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of PersonCategory objects pre-filled with their Person objects.
+	 * Selects a collection of PersonHash objects pre-filled with their Person objects.
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of PersonCategory objects.
+	 * @return     array Array of PersonHash objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -540,34 +488,34 @@ abstract class BasePersonCategoryPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		PersonCategoryPeer::addSelectColumns($criteria);
-		$startcol = (PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS);
+		PersonHashPeer::addSelectColumns($criteria);
+		$startcol = (PersonHashPeer::NUM_COLUMNS - PersonHashPeer::NUM_LAZY_LOAD_COLUMNS);
 		PersonPeer::addSelectColumns($criteria);
 
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
+		$criteria->addJoin(PersonHashPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
 
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = PersonCategoryPeer::getInstanceFromPool($key1))) {
+			$key1 = PersonHashPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PersonHashPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://propel.phpdb.org/trac/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
 
-				$cls = PersonCategoryPeer::getOMClass(false);
+				$cls = PersonHashPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				PersonCategoryPeer::addInstanceToPool($obj1, $key1);
+				PersonHashPeer::addInstanceToPool($obj1, $key1);
 			} // if $obj1 already loaded
 
 			$key2 = PersonPeer::getPrimaryKeyHashFromRow($row, $startcol);
@@ -582,80 +530,8 @@ abstract class BasePersonCategoryPeer {
 					PersonPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 already loaded
 				
-				// Add the $obj1 (PersonCategory) to $obj2 (Person)
-				$obj2->addPersonCategory($obj1);
-
-			} // if joined row was not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of PersonCategory objects pre-filled with their Category objects.
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of PersonCategory objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinCategory(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		PersonCategoryPeer::addSelectColumns($criteria);
-		$startcol = (PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS);
-		CategoryPeer::addSelectColumns($criteria);
-
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = PersonCategoryPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://propel.phpdb.org/trac/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-
-				$cls = PersonCategoryPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				PersonCategoryPeer::addInstanceToPool($obj1, $key1);
-			} // if $obj1 already loaded
-
-			$key2 = CategoryPeer::getPrimaryKeyHashFromRow($row, $startcol);
-			if ($key2 !== null) {
-				$obj2 = CategoryPeer::getInstanceFromPool($key2);
-				if (!$obj2) {
-
-					$cls = CategoryPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol);
-					CategoryPeer::addInstanceToPool($obj2, $key2);
-				} // if obj2 already loaded
-				
-				// Add the $obj1 (PersonCategory) to $obj2 (Category)
-				$obj2->addPersonCategory($obj1);
+				// Add the $obj1 (PersonHash) to $obj2 (Person)
+				$obj2->addPersonHash($obj1);
 
 			} // if joined row was not null
 
@@ -683,14 +559,14 @@ abstract class BasePersonCategoryPeer {
 		// We need to set the primary table name, since in the case that there are no WHERE columns
 		// it will be impossible for the BasePeer::createSelectSql() method to determine which
 		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
+		$criteria->setPrimaryTableName(PersonHashPeer::TABLE_NAME);
 
 		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
 			$criteria->setDistinct();
 		}
 
 		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
+			PersonHashPeer::addSelectColumns($criteria);
 		}
 		
 		$criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
@@ -699,17 +575,15 @@ abstract class BasePersonCategoryPeer {
 		$criteria->setDbName(self::DATABASE_NAME);
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
-
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
+		$criteria->addJoin(PersonHashPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
 
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 		$stmt = BasePeer::doCount($criteria, $con);
@@ -724,12 +598,12 @@ abstract class BasePersonCategoryPeer {
 	}
 
 	/**
-	 * Selects a collection of PersonCategory objects pre-filled with all related objects.
+	 * Selects a collection of PersonHash objects pre-filled with all related objects.
 	 *
 	 * @param      Criteria  $criteria
 	 * @param      PropelPDO $con
 	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of PersonCategory objects.
+	 * @return     array Array of PersonHash objects.
 	 * @throws     PropelException Any exceptions caught during processing will be
 	 *		 rethrown wrapped into a PropelException.
 	 */
@@ -742,40 +616,35 @@ abstract class BasePersonCategoryPeer {
 			$criteria->setDbName(self::DATABASE_NAME);
 		}
 
-		PersonCategoryPeer::addSelectColumns($criteria);
-		$startcol2 = (PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS);
+		PersonHashPeer::addSelectColumns($criteria);
+		$startcol2 = (PersonHashPeer::NUM_COLUMNS - PersonHashPeer::NUM_LAZY_LOAD_COLUMNS);
 
 		PersonPeer::addSelectColumns($criteria);
 		$startcol3 = $startcol2 + (PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS);
 
-		CategoryPeer::addSelectColumns($criteria);
-		$startcol4 = $startcol3 + (CategoryPeer::NUM_COLUMNS - CategoryPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
-
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
+		$criteria->addJoin(PersonHashPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
 
 		// symfony_behaviors behavior
 		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
 		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
+		  call_user_func($sf_hook, 'BasePersonHashPeer', $criteria, $con);
 		}
 
 		$stmt = BasePeer::doSelect($criteria, $con);
 		$results = array();
 
 		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = PersonCategoryPeer::getInstanceFromPool($key1))) {
+			$key1 = PersonHashPeer::getPrimaryKeyHashFromRow($row, 0);
+			if (null !== ($obj1 = PersonHashPeer::getInstanceFromPool($key1))) {
 				// We no longer rehydrate the object, since this can cause data loss.
 				// See http://propel.phpdb.org/trac/ticket/509
 				// $obj1->hydrate($row, 0, true); // rehydrate
 			} else {
-				$cls = PersonCategoryPeer::getOMClass(false);
+				$cls = PersonHashPeer::getOMClass(false);
 
 				$obj1 = new $cls();
 				$obj1->hydrate($row);
-				PersonCategoryPeer::addInstanceToPool($obj1, $key1);
+				PersonHashPeer::addInstanceToPool($obj1, $key1);
 			} // if obj1 already loaded
 
 			// Add objects for joined Person rows
@@ -792,297 +661,9 @@ abstract class BasePersonCategoryPeer {
 					PersonPeer::addInstanceToPool($obj2, $key2);
 				} // if obj2 loaded
 
-				// Add the $obj1 (PersonCategory) to the collection in $obj2 (Person)
-				$obj2->addPersonCategory($obj1);
+				// Add the $obj1 (PersonHash) to the collection in $obj2 (Person)
+				$obj2->addPersonHash($obj1);
 			} // if joined row not null
-
-			// Add objects for joined Category rows
-
-			$key3 = CategoryPeer::getPrimaryKeyHashFromRow($row, $startcol3);
-			if ($key3 !== null) {
-				$obj3 = CategoryPeer::getInstanceFromPool($key3);
-				if (!$obj3) {
-
-					$cls = CategoryPeer::getOMClass(false);
-
-					$obj3 = new $cls();
-					$obj3->hydrate($row, $startcol3);
-					CategoryPeer::addInstanceToPool($obj3, $key3);
-				} // if obj3 loaded
-
-				// Add the $obj1 (PersonCategory) to the collection in $obj3 (Category)
-				$obj3->addPersonCategory($obj1);
-			} // if joined row not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Person table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptPerson(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
-		
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
-		}
-		
-		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
-		
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-	
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Returns the number of rows matching criteria, joining the related Category table
-	 *
-	 * @param      Criteria $criteria
-	 * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     int Number of matching rows.
-	 */
-	public static function doCountJoinAllExceptCategory(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		// we're going to modify criteria, so copy it first
-		$criteria = clone $criteria;
-
-		// We need to set the primary table name, since in the case that there are no WHERE columns
-		// it will be impossible for the BasePeer::createSelectSql() method to determine which
-		// tables go into the FROM clause.
-		$criteria->setPrimaryTableName(PersonCategoryPeer::TABLE_NAME);
-		
-		if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->setDistinct();
-		}
-
-		if (!$criteria->hasSelectClause()) {
-			PersonCategoryPeer::addSelectColumns($criteria);
-		}
-		
-		$criteria->clearOrderByColumns(); // ORDER BY should not affect count
-		
-		// Set the correct dbName
-		$criteria->setDbName(self::DATABASE_NAME);
-
-		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
-		}
-	
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-		$stmt = BasePeer::doCount($criteria, $con);
-
-		if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$count = (int) $row[0];
-		} else {
-			$count = 0; // no rows returned; we infer that means 0 matches.
-		}
-		$stmt->closeCursor();
-		return $count;
-	}
-
-
-	/**
-	 * Selects a collection of PersonCategory objects pre-filled with all related objects except Person.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of PersonCategory objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptPerson(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		// $criteria->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		PersonCategoryPeer::addSelectColumns($criteria);
-		$startcol2 = (PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		CategoryPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + (CategoryPeer::NUM_COLUMNS - CategoryPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		$criteria->addJoin(PersonCategoryPeer::CATEGORY_ID, CategoryPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = PersonCategoryPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://propel.phpdb.org/trac/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = PersonCategoryPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				PersonCategoryPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-				// Add objects for joined Category rows
-
-				$key2 = CategoryPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-				if ($key2 !== null) {
-					$obj2 = CategoryPeer::getInstanceFromPool($key2);
-					if (!$obj2) {
-	
-						$cls = CategoryPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					CategoryPeer::addInstanceToPool($obj2, $key2);
-				} // if $obj2 already loaded
-
-				// Add the $obj1 (PersonCategory) to the collection in $obj2 (Category)
-				$obj2->addPersonCategory($obj1);
-
-			} // if joined row is not null
-
-			$results[] = $obj1;
-		}
-		$stmt->closeCursor();
-		return $results;
-	}
-
-
-	/**
-	 * Selects a collection of PersonCategory objects pre-filled with all related objects except Category.
-	 *
-	 * @param      Criteria  $criteria
-	 * @param      PropelPDO $con
-	 * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-	 * @return     array Array of PersonCategory objects.
-	 * @throws     PropelException Any exceptions caught during processing will be
-	 *		 rethrown wrapped into a PropelException.
-	 */
-	public static function doSelectJoinAllExceptCategory(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-	{
-		$criteria = clone $criteria;
-
-		// Set the correct dbName if it has not been overridden
-		// $criteria->getDbName() will return the same object if not set to another value
-		// so == check is okay and faster
-		if ($criteria->getDbName() == Propel::getDefaultDB()) {
-			$criteria->setDbName(self::DATABASE_NAME);
-		}
-
-		PersonCategoryPeer::addSelectColumns($criteria);
-		$startcol2 = (PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		PersonPeer::addSelectColumns($criteria);
-		$startcol3 = $startcol2 + (PersonPeer::NUM_COLUMNS - PersonPeer::NUM_LAZY_LOAD_COLUMNS);
-
-		$criteria->addJoin(PersonCategoryPeer::PERSON_ID, PersonPeer::ID, $join_behavior);
-
-		// symfony_behaviors behavior
-		foreach (sfMixer::getCallables(self::getMixerPreSelectHook(__FUNCTION__)) as $sf_hook)
-		{
-		  call_user_func($sf_hook, 'BasePersonCategoryPeer', $criteria, $con);
-		}
-
-
-		$stmt = BasePeer::doSelect($criteria, $con);
-		$results = array();
-
-		while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-			$key1 = PersonCategoryPeer::getPrimaryKeyHashFromRow($row, 0);
-			if (null !== ($obj1 = PersonCategoryPeer::getInstanceFromPool($key1))) {
-				// We no longer rehydrate the object, since this can cause data loss.
-				// See http://propel.phpdb.org/trac/ticket/509
-				// $obj1->hydrate($row, 0, true); // rehydrate
-			} else {
-				$cls = PersonCategoryPeer::getOMClass(false);
-
-				$obj1 = new $cls();
-				$obj1->hydrate($row);
-				PersonCategoryPeer::addInstanceToPool($obj1, $key1);
-			} // if obj1 already loaded
-
-				// Add objects for joined Person rows
-
-				$key2 = PersonPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-				if ($key2 !== null) {
-					$obj2 = PersonPeer::getInstanceFromPool($key2);
-					if (!$obj2) {
-	
-						$cls = PersonPeer::getOMClass(false);
-
-					$obj2 = new $cls();
-					$obj2->hydrate($row, $startcol2);
-					PersonPeer::addInstanceToPool($obj2, $key2);
-				} // if $obj2 already loaded
-
-				// Add the $obj1 (PersonCategory) to the collection in $obj2 (Person)
-				$obj2->addPersonCategory($obj1);
-
-			} // if joined row is not null
 
 			$results[] = $obj1;
 		}
@@ -1107,10 +688,10 @@ abstract class BasePersonCategoryPeer {
 	 */
 	public static function buildTableMap()
 	{
-	  $dbMap = Propel::getDatabaseMap(BasePersonCategoryPeer::DATABASE_NAME);
-	  if (!$dbMap->hasTable(BasePersonCategoryPeer::TABLE_NAME))
+	  $dbMap = Propel::getDatabaseMap(BasePersonHashPeer::DATABASE_NAME);
+	  if (!$dbMap->hasTable(BasePersonHashPeer::TABLE_NAME))
 	  {
-	    $dbMap->addTableObject(new PersonCategoryTableMap());
+	    $dbMap->addTableObject(new PersonHashTableMap());
 	  }
 	}
 
@@ -1127,13 +708,13 @@ abstract class BasePersonCategoryPeer {
 	 */
 	public static function getOMClass($withPrefix = true)
 	{
-		return $withPrefix ? PersonCategoryPeer::CLASS_DEFAULT : PersonCategoryPeer::OM_CLASS;
+		return $withPrefix ? PersonHashPeer::CLASS_DEFAULT : PersonHashPeer::OM_CLASS;
 	}
 
 	/**
-	 * Method perform an INSERT on the database, given a PersonCategory or Criteria object.
+	 * Method perform an INSERT on the database, given a PersonHash or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or PersonCategory object containing data that is used to create the INSERT statement.
+	 * @param      mixed $values Criteria or PersonHash object containing data that is used to create the INSERT statement.
 	 * @param      PropelPDO $con the PropelPDO connection to use
 	 * @return     mixed The new primary key.
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1142,22 +723,22 @@ abstract class BasePersonCategoryPeer {
 	public static function doInsert($values, PropelPDO $con = null)
 	{
     // symfony_behaviors behavior
-    foreach (sfMixer::getCallables('BasePersonCategoryPeer:doInsert:pre') as $sf_hook)
+    foreach (sfMixer::getCallables('BasePersonHashPeer:doInsert:pre') as $sf_hook)
     {
-      if (false !== $sf_hook_retval = call_user_func($sf_hook, 'BasePersonCategoryPeer', $values, $con))
+      if (false !== $sf_hook_retval = call_user_func($sf_hook, 'BasePersonHashPeer', $values, $con))
       {
         return $sf_hook_retval;
       }
     }
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 		} else {
-			$criteria = $values->buildCriteria(); // build Criteria from PersonCategory object
+			$criteria = $values->buildCriteria(); // build Criteria from PersonHash object
 		}
 
 
@@ -1176,18 +757,18 @@ abstract class BasePersonCategoryPeer {
 		}
 
     // symfony_behaviors behavior
-    foreach (sfMixer::getCallables('BasePersonCategoryPeer:doInsert:post') as $sf_hook)
+    foreach (sfMixer::getCallables('BasePersonHashPeer:doInsert:post') as $sf_hook)
     {
-      call_user_func($sf_hook, 'BasePersonCategoryPeer', $values, $con, $pk);
+      call_user_func($sf_hook, 'BasePersonHashPeer', $values, $con, $pk);
     }
 
 		return $pk;
 	}
 
 	/**
-	 * Method perform an UPDATE on the database, given a PersonCategory or Criteria object.
+	 * Method perform an UPDATE on the database, given a PersonHash or Criteria object.
 	 *
-	 * @param      mixed $values Criteria or PersonCategory object containing data that is used to create the UPDATE statement.
+	 * @param      mixed $values Criteria or PersonHash object containing data that is used to create the UPDATE statement.
 	 * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 * @throws     PropelException Any exceptions caught during processing will be
@@ -1196,16 +777,16 @@ abstract class BasePersonCategoryPeer {
 	public static function doUpdate($values, PropelPDO $con = null)
 	{
     // symfony_behaviors behavior
-    foreach (sfMixer::getCallables('BasePersonCategoryPeer:doUpdate:pre') as $sf_hook)
+    foreach (sfMixer::getCallables('BasePersonHashPeer:doUpdate:pre') as $sf_hook)
     {
-      if (false !== $sf_hook_retval = call_user_func($sf_hook, 'BasePersonCategoryPeer', $values, $con))
+      if (false !== $sf_hook_retval = call_user_func($sf_hook, 'BasePersonHashPeer', $values, $con))
       {
         return $sf_hook_retval;
       }
     }
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		$selectCriteria = new Criteria(self::DATABASE_NAME);
@@ -1213,13 +794,13 @@ abstract class BasePersonCategoryPeer {
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; // rename for clarity
 
-			$comparison = $criteria->getComparison(PersonCategoryPeer::PERSON_ID);
-			$selectCriteria->add(PersonCategoryPeer::PERSON_ID, $criteria->remove(PersonCategoryPeer::PERSON_ID), $comparison);
+			$comparison = $criteria->getComparison(PersonHashPeer::PERSON_ID);
+			$selectCriteria->add(PersonHashPeer::PERSON_ID, $criteria->remove(PersonHashPeer::PERSON_ID), $comparison);
 
-			$comparison = $criteria->getComparison(PersonCategoryPeer::CATEGORY_ID);
-			$selectCriteria->add(PersonCategoryPeer::CATEGORY_ID, $criteria->remove(PersonCategoryPeer::CATEGORY_ID), $comparison);
+			$comparison = $criteria->getComparison(PersonHashPeer::EMAIL);
+			$selectCriteria->add(PersonHashPeer::EMAIL, $criteria->remove(PersonHashPeer::EMAIL), $comparison);
 
-		} else { // $values is PersonCategory object
+		} else { // $values is PersonHash object
 			$criteria = $values->buildCriteria(); // gets full criteria
 			$selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
 		}
@@ -1230,35 +811,35 @@ abstract class BasePersonCategoryPeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 
     // symfony_behaviors behavior
-    foreach (sfMixer::getCallables('BasePersonCategoryPeer:doUpdate:post') as $sf_hook)
+    foreach (sfMixer::getCallables('BasePersonHashPeer:doUpdate:post') as $sf_hook)
     {
-      call_user_func($sf_hook, 'BasePersonCategoryPeer', $values, $con, $ret);
+      call_user_func($sf_hook, 'BasePersonHashPeer', $values, $con, $ret);
     }
 
     return $ret;
 	}
 
 	/**
-	 * Method to DELETE all rows from the person_category table.
+	 * Method to DELETE all rows from the person_hash table.
 	 *
 	 * @return     int The number of affected rows (if supported by underlying database driver).
 	 */
 	public static function doDeleteAll($con = null)
 	{
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		$affectedRows = 0; // initialize var to track total num of affected rows
 		try {
 			// use transaction because $criteria could contain info
 			// for more than one table or we could emulating ON DELETE CASCADE, etc.
 			$con->beginTransaction();
-			$affectedRows += BasePeer::doDeleteAll(PersonCategoryPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(PersonHashPeer::TABLE_NAME, $con);
 			// Because this db requires some delete cascade/set null emulation, we have to
 			// clear the cached instance *after* the emulation has happened (since
 			// instances get re-added by the select statement contained therein).
-			PersonCategoryPeer::clearInstancePool();
-			PersonCategoryPeer::clearRelatedInstancePool();
+			PersonHashPeer::clearInstancePool();
+			PersonHashPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -1268,9 +849,9 @@ abstract class BasePersonCategoryPeer {
 	}
 
 	/**
-	 * Method perform a DELETE on the database, given a PersonCategory or Criteria object OR a primary key value.
+	 * Method perform a DELETE on the database, given a PersonHash or Criteria object OR a primary key value.
 	 *
-	 * @param      mixed $values Criteria or PersonCategory object or primary key or array of primary keys
+	 * @param      mixed $values Criteria or PersonHash object or primary key or array of primary keys
 	 *              which is used to create the DELETE statement
 	 * @param      PropelPDO $con the connection to use
 	 * @return     int 	The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -1281,19 +862,19 @@ abstract class BasePersonCategoryPeer {
 	 public static function doDelete($values, PropelPDO $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 
 		if ($values instanceof Criteria) {
 			// invalidate the cache for all objects of this type, since we have no
 			// way of knowing (without running a query) what objects should be invalidated
 			// from the cache based on this Criteria.
-			PersonCategoryPeer::clearInstancePool();
+			PersonHashPeer::clearInstancePool();
 			// rename for clarity
 			$criteria = clone $values;
-		} elseif ($values instanceof PersonCategory) { // it's a model object
+		} elseif ($values instanceof PersonHash) { // it's a model object
 			// invalidate the cache for this single object
-			PersonCategoryPeer::removeInstanceFromPool($values);
+			PersonHashPeer::removeInstanceFromPool($values);
 			// create criteria based on pk values
 			$criteria = $values->buildPkeyCriteria();
 		} else { // it's a primary key, or an array of pks
@@ -1305,11 +886,11 @@ abstract class BasePersonCategoryPeer {
 				$values = array($values);
 			}
 			foreach ($values as $value) {
-				$criterion = $criteria->getNewCriterion(PersonCategoryPeer::PERSON_ID, $value[0]);
-				$criterion->addAnd($criteria->getNewCriterion(PersonCategoryPeer::CATEGORY_ID, $value[1]));
+				$criterion = $criteria->getNewCriterion(PersonHashPeer::PERSON_ID, $value[0]);
+				$criterion->addAnd($criteria->getNewCriterion(PersonHashPeer::EMAIL, $value[1]));
 				$criteria->addOr($criterion);
 				// we can invalidate the cache for this single PK
-				PersonCategoryPeer::removeInstanceFromPool($value);
+				PersonHashPeer::removeInstanceFromPool($value);
 			}
 		}
 
@@ -1324,7 +905,7 @@ abstract class BasePersonCategoryPeer {
 			$con->beginTransaction();
 			
 			$affectedRows += BasePeer::doDelete($criteria, $con);
-			PersonCategoryPeer::clearRelatedInstancePool();
+			PersonHashPeer::clearRelatedInstancePool();
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -1334,24 +915,24 @@ abstract class BasePersonCategoryPeer {
 	}
 
 	/**
-	 * Validates all modified columns of given PersonCategory object.
+	 * Validates all modified columns of given PersonHash object.
 	 * If parameter $columns is either a single column name or an array of column names
 	 * than only those columns are validated.
 	 *
 	 * NOTICE: This does not apply to primary or foreign keys for now.
 	 *
-	 * @param      PersonCategory $obj The object to validate.
+	 * @param      PersonHash $obj The object to validate.
 	 * @param      mixed $cols Column name or array of column names.
 	 *
 	 * @return     mixed TRUE if all columns are valid or the error message of the first invalid column.
 	 */
-	public static function doValidate(PersonCategory $obj, $cols = null)
+	public static function doValidate(PersonHash $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(PersonCategoryPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(PersonCategoryPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(PersonHashPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(PersonHashPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -1367,29 +948,29 @@ abstract class BasePersonCategoryPeer {
 
 		}
 
-		return BasePeer::doValidate(PersonCategoryPeer::DATABASE_NAME, PersonCategoryPeer::TABLE_NAME, $columns);
+		return BasePeer::doValidate(PersonHashPeer::DATABASE_NAME, PersonHashPeer::TABLE_NAME, $columns);
 	}
 
 	/**
 	 * Retrieve object using using composite pkey values.
 	 * @param      int $person_id
-	 * @param      int $category_id
+	 * @param      string $email
 	 * @param      PropelPDO $con
-	 * @return     PersonCategory
+	 * @return     PersonHash
 	 */
-	public static function retrieveByPK($person_id, $category_id, PropelPDO $con = null) {
-		$key = serialize(array((string) $person_id, (string) $category_id));
- 		if (null !== ($obj = PersonCategoryPeer::getInstanceFromPool($key))) {
+	public static function retrieveByPK($person_id, $email, PropelPDO $con = null) {
+		$key = serialize(array((string) $person_id, (string) $email));
+ 		if (null !== ($obj = PersonHashPeer::getInstanceFromPool($key))) {
  			return $obj;
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
-		$criteria = new Criteria(PersonCategoryPeer::DATABASE_NAME);
-		$criteria->add(PersonCategoryPeer::PERSON_ID, $person_id);
-		$criteria->add(PersonCategoryPeer::CATEGORY_ID, $category_id);
-		$v = PersonCategoryPeer::doSelect($criteria, $con);
+		$criteria = new Criteria(PersonHashPeer::DATABASE_NAME);
+		$criteria->add(PersonHashPeer::PERSON_ID, $person_id);
+		$criteria->add(PersonHashPeer::EMAIL, $email);
+		$v = PersonHashPeer::doSelect($criteria, $con);
 
 		return !empty($v) ? $v[0] : null;
 	}
@@ -1402,7 +983,7 @@ abstract class BasePersonCategoryPeer {
 	 */
 	static public function getUniqueColumnNames()
 	{
-	  return array(array('person_id', 'category_id'));
+	  return array(array('email'));
 	}
 
 	// symfony_behaviors behavior
@@ -1420,15 +1001,15 @@ abstract class BasePersonCategoryPeer {
 	{
 	  if (preg_match('/^do(Select|Count)(Join(All(Except)?)?|Stmt)?/', $method, $match))
 	  {
-	    return sprintf('BasePersonCategoryPeer:%s:%1$s', 'Count' == $match[1] ? 'doCount' : $match[0]);
+	    return sprintf('BasePersonHashPeer:%s:%1$s', 'Count' == $match[1] ? 'doCount' : $match[0]);
 	  }
 	
 	  throw new LogicException(sprintf('Unrecognized function "%s"', $method));
 	}
 
-} // BasePersonCategoryPeer
+} // BasePersonHashPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BasePersonCategoryPeer::buildTableMap();
+BasePersonHashPeer::buildTableMap();
 

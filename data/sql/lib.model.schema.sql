@@ -68,5 +68,26 @@ CREATE TABLE `person_category`
 		ON DELETE RESTRICT
 )Type=InnoDB;
 
+#-----------------------------------------------------------------------------
+#-- person_hash
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `person_hash`;
+
+
+CREATE TABLE `person_hash`
+(
+	`person_id` INTEGER(11)  NOT NULL,
+	`email` VARCHAR(255)  NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`person_id`,`email`),
+	UNIQUE KEY `person_hash_U_1` (`email`),
+	CONSTRAINT `person_hash_FK_1`
+		FOREIGN KEY (`person_id`)
+		REFERENCES `person` (`id`)
+		ON UPDATE CASCADE
+		ON DELETE CASCADE
+)Type=InnoDB;
+
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;

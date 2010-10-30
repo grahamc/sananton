@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Base class that represents a row from the 'person_category' table.
+ * Base class that represents a row from the 'person_hash' table.
  *
  * 
  *
@@ -11,14 +11,14 @@
  *
  * @package    lib.model.om
  */
-abstract class BasePersonCategory extends BaseObject  implements Persistent {
+abstract class BasePersonHash extends BaseObject  implements Persistent {
 
 
 	/**
 	 * The Peer class.
 	 * Instance provides a convenient way of calling static methods on a class
 	 * that calling code may not be able to identify.
-	 * @var        PersonCategoryPeer
+	 * @var        PersonHashPeer
 	 */
 	protected static $peer;
 
@@ -29,20 +29,21 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	protected $person_id;
 
 	/**
-	 * The value for the category_id field.
-	 * @var        int
+	 * The value for the email field.
+	 * @var        string
 	 */
-	protected $category_id;
+	protected $email;
+
+	/**
+	 * The value for the created_at field.
+	 * @var        string
+	 */
+	protected $created_at;
 
 	/**
 	 * @var        Person
 	 */
 	protected $aPerson;
-
-	/**
-	 * @var        Category
-	 */
-	protected $aCategory;
 
 	/**
 	 * Flag to prevent endless save loop, if this object is referenced
@@ -60,7 +61,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 	// symfony behavior
 	
-	const PEER = 'PersonCategoryPeer';
+	const PEER = 'PersonHashPeer';
 
 	/**
 	 * Get the [person_id] column value.
@@ -73,20 +74,58 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	}
 
 	/**
-	 * Get the [category_id] column value.
+	 * Get the [email] column value.
 	 * 
-	 * @return     int
+	 * @return     string
 	 */
-	public function getCategoryId()
+	public function getEmail()
 	{
-		return $this->category_id;
+		return $this->email;
+	}
+
+	/**
+	 * Get the [optionally formatted] temporal [created_at] column value.
+	 * 
+	 *
+	 * @param      string $format The date/time format string (either date()-style or strftime()-style).
+	 *							If format is NULL, then the raw DateTime object will be returned.
+	 * @return     mixed Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00
+	 * @throws     PropelException - if unable to parse/validate the date/time value.
+	 */
+	public function getCreatedAt($format = 'Y-m-d H:i:s')
+	{
+		if ($this->created_at === null) {
+			return null;
+		}
+
+
+		if ($this->created_at === '0000-00-00 00:00:00') {
+			// while technically this is not a default value of NULL,
+			// this seems to be closest in meaning.
+			return null;
+		} else {
+			try {
+				$dt = new DateTime($this->created_at);
+			} catch (Exception $x) {
+				throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->created_at, true), $x);
+			}
+		}
+
+		if ($format === null) {
+			// Because propel.useDateTimeClass is TRUE, we return a DateTime object.
+			return $dt;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $dt->format('U'));
+		} else {
+			return $dt->format($format);
+		}
 	}
 
 	/**
 	 * Set the value of [person_id] column.
 	 * 
 	 * @param      int $v new value
-	 * @return     PersonCategory The current object (for fluent API support)
+	 * @return     PersonHash The current object (for fluent API support)
 	 */
 	public function setPersonId($v)
 	{
@@ -96,7 +135,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 		if ($this->person_id !== $v) {
 			$this->person_id = $v;
-			$this->modifiedColumns[] = PersonCategoryPeer::PERSON_ID;
+			$this->modifiedColumns[] = PersonHashPeer::PERSON_ID;
 		}
 
 		if ($this->aPerson !== null && $this->aPerson->getId() !== $v) {
@@ -107,28 +146,73 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	} // setPersonId()
 
 	/**
-	 * Set the value of [category_id] column.
+	 * Set the value of [email] column.
 	 * 
-	 * @param      int $v new value
-	 * @return     PersonCategory The current object (for fluent API support)
+	 * @param      string $v new value
+	 * @return     PersonHash The current object (for fluent API support)
 	 */
-	public function setCategoryId($v)
+	public function setEmail($v)
 	{
 		if ($v !== null) {
-			$v = (int) $v;
+			$v = (string) $v;
 		}
 
-		if ($this->category_id !== $v) {
-			$this->category_id = $v;
-			$this->modifiedColumns[] = PersonCategoryPeer::CATEGORY_ID;
-		}
-
-		if ($this->aCategory !== null && $this->aCategory->getId() !== $v) {
-			$this->aCategory = null;
+		if ($this->email !== $v) {
+			$this->email = $v;
+			$this->modifiedColumns[] = PersonHashPeer::EMAIL;
 		}
 
 		return $this;
-	} // setCategoryId()
+	} // setEmail()
+
+	/**
+	 * Sets the value of [created_at] column to a normalized version of the date/time value specified.
+	 * 
+	 * @param      mixed $v string, integer (timestamp), or DateTime value.  Empty string will
+	 *						be treated as NULL for temporal objects.
+	 * @return     PersonHash The current object (for fluent API support)
+	 */
+	public function setCreatedAt($v)
+	{
+		// we treat '' as NULL for temporal objects because DateTime('') == DateTime('now')
+		// -- which is unexpected, to say the least.
+		if ($v === null || $v === '') {
+			$dt = null;
+		} elseif ($v instanceof DateTime) {
+			$dt = $v;
+		} else {
+			// some string/numeric value passed; we normalize that so that we can
+			// validate it.
+			try {
+				if (is_numeric($v)) { // if it's a unix timestamp
+					$dt = new DateTime('@'.$v, new DateTimeZone('UTC'));
+					// We have to explicitly specify and then change the time zone because of a
+					// DateTime bug: http://bugs.php.net/bug.php?id=43003
+					$dt->setTimeZone(new DateTimeZone(date_default_timezone_get()));
+				} else {
+					$dt = new DateTime($v);
+				}
+			} catch (Exception $x) {
+				throw new PropelException('Error parsing date/time value: ' . var_export($v, true), $x);
+			}
+		}
+
+		if ( $this->created_at !== null || $dt !== null ) {
+			// (nested ifs are a little easier to read in this case)
+
+			$currNorm = ($this->created_at !== null && $tmpDt = new DateTime($this->created_at)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+			$newNorm = ($dt !== null) ? $dt->format('Y-m-d H:i:s') : null;
+
+			if ( ($currNorm !== $newNorm) // normalized values don't match 
+					)
+			{
+				$this->created_at = ($dt ? $dt->format('Y-m-d H:i:s') : null);
+				$this->modifiedColumns[] = PersonHashPeer::CREATED_AT;
+			}
+		} // if either are not null
+
+		return $this;
+	} // setCreatedAt()
 
 	/**
 	 * Indicates whether the columns in this object are only set to default values.
@@ -163,7 +247,8 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		try {
 
 			$this->person_id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-			$this->category_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+			$this->email = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+			$this->created_at = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
 			$this->resetModified();
 
 			$this->setNew(false);
@@ -173,10 +258,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 			}
 
 			// FIXME - using NUM_COLUMNS may be clearer.
-			return $startcol + 2; // 2 = PersonCategoryPeer::NUM_COLUMNS - PersonCategoryPeer::NUM_LAZY_LOAD_COLUMNS).
+			return $startcol + 3; // 3 = PersonHashPeer::NUM_COLUMNS - PersonHashPeer::NUM_LAZY_LOAD_COLUMNS).
 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating PersonCategory object", $e);
+			throw new PropelException("Error populating PersonHash object", $e);
 		}
 	}
 
@@ -198,9 +283,6 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 		if ($this->aPerson !== null && $this->person_id !== $this->aPerson->getId()) {
 			$this->aPerson = null;
-		}
-		if ($this->aCategory !== null && $this->category_id !== $this->aCategory->getId()) {
-			$this->aCategory = null;
 		}
 	} // ensureConsistency
 
@@ -225,13 +307,13 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_READ);
 		}
 
 		// We don't need to alter the object instance pool; we're just modifying this instance
 		// already in the pool.
 
-		$stmt = PersonCategoryPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+		$stmt = PersonHashPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
 		$row = $stmt->fetch(PDO::FETCH_NUM);
 		$stmt->closeCursor();
 		if (!$row) {
@@ -242,7 +324,6 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		if ($deep) {  // also de-associate any related objects?
 
 			$this->aPerson = null;
-			$this->aCategory = null;
 		} // if (deep)
 	}
 
@@ -262,14 +343,14 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		
 		$con->beginTransaction();
 		try {
 			$ret = $this->preDelete($con);
 			// symfony_behaviors behavior
-			foreach (sfMixer::getCallables('BasePersonCategory:delete:pre') as $callable)
+			foreach (sfMixer::getCallables('BasePersonHash:delete:pre') as $callable)
 			{
 			  if (call_user_func($callable, $this, $con))
 			  {
@@ -280,10 +361,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 			}
 
 			if ($ret) {
-				PersonCategoryPeer::doDelete($this, $con);
+				PersonHashPeer::doDelete($this, $con);
 				$this->postDelete($con);
 				// symfony_behaviors behavior
-				foreach (sfMixer::getCallables('BasePersonCategory:delete:post') as $callable)
+				foreach (sfMixer::getCallables('BasePersonHash:delete:post') as $callable)
 				{
 				  call_user_func($callable, $this, $con);
 				}
@@ -319,7 +400,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(PersonCategoryPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+			$con = Propel::getConnection(PersonHashPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
 		}
 		
 		$con->beginTransaction();
@@ -327,7 +408,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		try {
 			$ret = $this->preSave($con);
 			// symfony_behaviors behavior
-			foreach (sfMixer::getCallables('BasePersonCategory:save:pre') as $callable)
+			foreach (sfMixer::getCallables('BasePersonHash:save:pre') as $callable)
 			{
 			  if (is_integer($affectedRows = call_user_func($callable, $this, $con)))
 			  {
@@ -337,8 +418,16 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 			  }
 			}
 
+			// symfony_timestampable behavior
+			
 			if ($isInsert) {
 				$ret = $ret && $this->preInsert($con);
+				// symfony_timestampable behavior
+				if (!$this->isColumnModified(PersonHashPeer::CREATED_AT))
+				{
+				  $this->setCreatedAt(time());
+				}
+
 			} else {
 				$ret = $ret && $this->preUpdate($con);
 			}
@@ -351,12 +440,12 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 				}
 				$this->postSave($con);
 				// symfony_behaviors behavior
-				foreach (sfMixer::getCallables('BasePersonCategory:save:post') as $callable)
+				foreach (sfMixer::getCallables('BasePersonHash:save:post') as $callable)
 				{
 				  call_user_func($callable, $this, $con, $affectedRows);
 				}
 
-				PersonCategoryPeer::addInstanceToPool($this);
+				PersonHashPeer::addInstanceToPool($this);
 			} else {
 				$affectedRows = 0;
 			}
@@ -397,25 +486,18 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 				$this->setPerson($this->aPerson);
 			}
 
-			if ($this->aCategory !== null) {
-				if ($this->aCategory->isModified() || $this->aCategory->isNew()) {
-					$affectedRows += $this->aCategory->save($con);
-				}
-				$this->setCategory($this->aCategory);
-			}
-
 
 			// If this object has been modified, then save it to the database.
 			if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = PersonCategoryPeer::doInsert($this, $con);
+					$pk = PersonHashPeer::doInsert($this, $con);
 					$affectedRows += 1; // we are assuming that there is only 1 row per doInsert() which
 										 // should always be true here (even though technically
 										 // BasePeer::doInsert() can insert multiple rows).
 
 					$this->setNew(false);
 				} else {
-					$affectedRows += PersonCategoryPeer::doUpdate($this, $con);
+					$affectedRows += PersonHashPeer::doUpdate($this, $con);
 				}
 
 				$this->resetModified(); // [HL] After being saved an object is no longer 'modified'
@@ -498,14 +580,8 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->aCategory !== null) {
-				if (!$this->aCategory->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aCategory->getValidationFailures());
-				}
-			}
 
-
-			if (($retval = PersonCategoryPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = PersonHashPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -528,7 +604,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = PersonCategoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PersonHashPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		$field = $this->getByPosition($pos);
 		return $field;
 	}
@@ -547,7 +623,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 				return $this->getPersonId();
 				break;
 			case 1:
-				return $this->getCategoryId();
+				return $this->getEmail();
+				break;
+			case 2:
+				return $this->getCreatedAt();
 				break;
 			default:
 				return null;
@@ -568,10 +647,11 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true)
 	{
-		$keys = PersonCategoryPeer::getFieldNames($keyType);
+		$keys = PersonHashPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getPersonId(),
-			$keys[1] => $this->getCategoryId(),
+			$keys[1] => $this->getEmail(),
+			$keys[2] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -588,7 +668,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = PersonCategoryPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = PersonHashPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -607,7 +687,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 				$this->setPersonId($value);
 				break;
 			case 1:
-				$this->setCategoryId($value);
+				$this->setEmail($value);
+				break;
+			case 2:
+				$this->setCreatedAt($value);
 				break;
 		} // switch()
 	}
@@ -631,10 +714,11 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = PersonCategoryPeer::getFieldNames($keyType);
+		$keys = PersonHashPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setPersonId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setCategoryId($arr[$keys[1]]);
+		if (array_key_exists($keys[1], $arr)) $this->setEmail($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setCreatedAt($arr[$keys[2]]);
 	}
 
 	/**
@@ -644,10 +728,11 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(PersonCategoryPeer::DATABASE_NAME);
+		$criteria = new Criteria(PersonHashPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(PersonCategoryPeer::PERSON_ID)) $criteria->add(PersonCategoryPeer::PERSON_ID, $this->person_id);
-		if ($this->isColumnModified(PersonCategoryPeer::CATEGORY_ID)) $criteria->add(PersonCategoryPeer::CATEGORY_ID, $this->category_id);
+		if ($this->isColumnModified(PersonHashPeer::PERSON_ID)) $criteria->add(PersonHashPeer::PERSON_ID, $this->person_id);
+		if ($this->isColumnModified(PersonHashPeer::EMAIL)) $criteria->add(PersonHashPeer::EMAIL, $this->email);
+		if ($this->isColumnModified(PersonHashPeer::CREATED_AT)) $criteria->add(PersonHashPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
 	}
@@ -662,10 +747,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(PersonCategoryPeer::DATABASE_NAME);
+		$criteria = new Criteria(PersonHashPeer::DATABASE_NAME);
 
-		$criteria->add(PersonCategoryPeer::PERSON_ID, $this->person_id);
-		$criteria->add(PersonCategoryPeer::CATEGORY_ID, $this->category_id);
+		$criteria->add(PersonHashPeer::PERSON_ID, $this->person_id);
+		$criteria->add(PersonHashPeer::EMAIL, $this->email);
 
 		return $criteria;
 	}
@@ -681,7 +766,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 		$pks[0] = $this->getPersonId();
 
-		$pks[1] = $this->getCategoryId();
+		$pks[1] = $this->getEmail();
 
 		return $pks;
 	}
@@ -697,7 +782,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 		$this->setPersonId($keys[0]);
 
-		$this->setCategoryId($keys[1]);
+		$this->setEmail($keys[1]);
 
 	}
 
@@ -707,7 +792,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 * If desired, this method can also make copies of all associated (fkey referrers)
 	 * objects.
 	 *
-	 * @param      object $copyObj An object of PersonCategory (or compatible) type.
+	 * @param      object $copyObj An object of PersonHash (or compatible) type.
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
 	 * @throws     PropelException
 	 */
@@ -716,7 +801,9 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 
 		$copyObj->setPersonId($this->person_id);
 
-		$copyObj->setCategoryId($this->category_id);
+		$copyObj->setEmail($this->email);
+
+		$copyObj->setCreatedAt($this->created_at);
 
 
 		$copyObj->setNew(true);
@@ -732,7 +819,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 * objects.
 	 *
 	 * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-	 * @return     PersonCategory Clone of current object.
+	 * @return     PersonHash Clone of current object.
 	 * @throws     PropelException
 	 */
 	public function copy($deepCopy = false)
@@ -751,12 +838,12 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 * same instance for all member of this class. The method could therefore
 	 * be static, but this would prevent one from overriding the behavior.
 	 *
-	 * @return     PersonCategoryPeer
+	 * @return     PersonHashPeer
 	 */
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new PersonCategoryPeer();
+			self::$peer = new PersonHashPeer();
 		}
 		return self::$peer;
 	}
@@ -765,7 +852,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 * Declares an association between this object and a Person object.
 	 *
 	 * @param      Person $v
-	 * @return     PersonCategory The current object (for fluent API support)
+	 * @return     PersonHash The current object (for fluent API support)
 	 * @throws     PropelException
 	 */
 	public function setPerson(Person $v = null)
@@ -781,7 +868,7 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		// Add binding for other direction of this n:n relationship.
 		// If this object has already been added to the Person object, it will not be re-added.
 		if ($v !== null) {
-			$v->addPersonCategory($this);
+			$v->addPersonHash($this);
 		}
 
 		return $this;
@@ -804,59 +891,10 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 			   to this object.  This level of coupling may, however, be
 			   undesirable since it could result in an only partially populated collection
 			   in the referenced object.
-			   $this->aPerson->addPersonCategorys($this);
+			   $this->aPerson->addPersonHashs($this);
 			 */
 		}
 		return $this->aPerson;
-	}
-
-	/**
-	 * Declares an association between this object and a Category object.
-	 *
-	 * @param      Category $v
-	 * @return     PersonCategory The current object (for fluent API support)
-	 * @throws     PropelException
-	 */
-	public function setCategory(Category $v = null)
-	{
-		if ($v === null) {
-			$this->setCategoryId(NULL);
-		} else {
-			$this->setCategoryId($v->getId());
-		}
-
-		$this->aCategory = $v;
-
-		// Add binding for other direction of this n:n relationship.
-		// If this object has already been added to the Category object, it will not be re-added.
-		if ($v !== null) {
-			$v->addPersonCategory($this);
-		}
-
-		return $this;
-	}
-
-
-	/**
-	 * Get the associated Category object
-	 *
-	 * @param      PropelPDO Optional Connection object.
-	 * @return     Category The associated Category object.
-	 * @throws     PropelException
-	 */
-	public function getCategory(PropelPDO $con = null)
-	{
-		if ($this->aCategory === null && ($this->category_id !== null)) {
-			$this->aCategory = CategoryPeer::retrieveByPk($this->category_id);
-			/* The following can be used additionally to
-			   guarantee the related object contains a reference
-			   to this object.  This level of coupling may, however, be
-			   undesirable since it could result in an only partially populated collection
-			   in the referenced object.
-			   $this->aCategory->addPersonCategorys($this);
-			 */
-		}
-		return $this->aCategory;
 	}
 
 	/**
@@ -874,7 +912,6 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 		} // if ($deep)
 
 			$this->aPerson = null;
-			$this->aCategory = null;
 	}
 
 	// symfony_behaviors behavior
@@ -884,9 +921,9 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	 */
 	public function __call($method, $arguments)
 	{
-	  if (!$callable = sfMixer::getCallable('BasePersonCategory:'.$method))
+	  if (!$callable = sfMixer::getCallable('BasePersonHash:'.$method))
 	  {
-	    throw new sfException(sprintf('Call to undefined method BasePersonCategory::%s', $method));
+	    throw new sfException(sprintf('Call to undefined method BasePersonHash::%s', $method));
 	  }
 	
 	  array_unshift($arguments, $this);
@@ -894,4 +931,4 @@ abstract class BasePersonCategory extends BaseObject  implements Persistent {
 	  return call_user_func_array($callable, $arguments);
 	}
 
-} // BasePersonCategory
+} // BasePersonHash

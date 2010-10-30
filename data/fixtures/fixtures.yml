@@ -4,13 +4,13 @@ Person:
     name: 'Graham Christensen'
     website: 'http://grahamc.com'
     email: graham@grahamc.com
-    image: /uploads/graham_christensen.jpg
+    image: graham_christensen.jpg
     validated_at: '2010-10-28'
   Person_2:
     name: 'Bob Johnson'
     website: 'http://foo.com'
     email: graham@bvar.com
-    image: /uploads/bob_johnson.gif
+    image: bob_johnson.gif
     validated_at: '2010-10-28'
 
 Category:
