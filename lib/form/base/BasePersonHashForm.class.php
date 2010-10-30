@@ -16,12 +16,14 @@ abstract class BasePersonHashForm extends BaseFormPropel
     $this->setWidgets(array(
       'person_id'  => new sfWidgetFormInputHidden(),
       'hash'       => new sfWidgetFormInputHidden(),
+      'used'       => new sfWidgetFormInputCheckbox(),
       'created_at' => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'person_id'  => new sfValidatorPropelChoice(array('model' => 'Person', 'column' => 'id', 'required' => false)),
       'hash'       => new sfValidatorChoice(array('choices' => array($this->getObject()->getHash()), 'empty_value' => $this->getObject()->getHash(), 'required' => false)),
+      'used'       => new sfValidatorBoolean(),
       'created_at' => new sfValidatorDateTime(array('required' => false)),
     ));
 

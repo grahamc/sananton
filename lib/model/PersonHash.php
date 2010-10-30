@@ -17,5 +17,25 @@
  * @package    lib.model
  */
 class PersonHash extends BasePersonHash {
-
+    public function isValid() {
+        if ($this->isUsed()) {
+            return false;
+        } elseif ($this->getCreatedAt('U') < strtotime('-30 minutes')) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function isUsed() {
+        return (bool) $this->getUsed();
+    }
+    
+    public function makeUsed() {
+        $this->setUsed(1);
+    }
+    
+    public function __toString() {
+        return $this->getHash();
+    }
 } // PersonHash

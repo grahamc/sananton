@@ -29,17 +29,17 @@ person_create:
       sf_method: post
       
 person_edit:
-    url:   /edit/:id
+    url:   /edit/:hash
     class: sfPropelRoute
-    options: { model: Person, type: object }
+    options: { model: PersonHash, type: object }
     param: { module: person, action: edit }
     requirements:
       sf_method: get
       
 person_save:
-    url:   /save/:id
+    url:   /save/:hash
     class: sfPropelRoute
-    options: { model: Person, type: object }
+    options: { model: PersonHash, type: object }
     param: { module: person, action: save }
     requirements:
       sf_method: put

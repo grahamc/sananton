@@ -2,7 +2,7 @@
 if ($form->getObject()->isNew()) {
     $route = '@person_create';
 } else {
-    $route = '@person_save?id=' . $form->getObject()->getId();
+    $route = '@person_save?hash=' . $hash;
 }
 ?>
 <h1 class="add_listing">Add Yourself</h1>

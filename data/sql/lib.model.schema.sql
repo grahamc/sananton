@@ -79,6 +79,7 @@ CREATE TABLE `person_hash`
 (
 	`person_id` INTEGER(11)  NOT NULL,
 	`hash` VARCHAR(255)  NOT NULL,
+	`used` TINYINT default 0 NOT NULL,
 	`created_at` DATETIME,
 	PRIMARY KEY (`person_id`,`hash`),
 	UNIQUE KEY `person_hash_U_1` (`hash`),

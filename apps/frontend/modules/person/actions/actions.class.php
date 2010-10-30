@@ -19,16 +19,23 @@ class personActions extends sfActions {
     }
     
     public function executeEdit(sfWebRequest $request) {
-        $this->form = new PersonForm($this->getRoute()->getObject());
+        $this->hash = $this->getRoute()->getObject();
+        $this->forward404If($this->hash->isValid(), 'Hash has expired.');
+        
+        $this->form = new PersonForm($this->hash->getPerson());
         $this->setTemplate('new');
     }
     
     public function executeSave(sfWebRequest $request) {
-        $this->form = new PersonForm($this->getRoute()->getObject());
+        $this->hash = $this->getRoute()->getObject();
+        $this->forward404If($this->hash->isValid(), 'Hash has expired.');
+        
+        $this->form = new PersonForm($this->hash->getPerson());
         $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
         
         if ($this->form->isValid()) {
             $person = $this->form->save();
+            $this->hash->delete();
             $this->redirect('@homepage');
         }
         
