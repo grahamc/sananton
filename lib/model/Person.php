@@ -22,6 +22,13 @@ class Person extends BasePerson {
     }
     
     /**
+     * Get the filesystem image path
+     */
+    public function getImageFsPath() {
+        return sfConfig::get('sf_upload_dir') . '/people/' . $this->getImage();
+    }
+    
+    /**
      * Get categories for this person
      * @return array(Category, Category, ... )
      */
@@ -35,5 +42,17 @@ class Person extends BasePerson {
         }
         
         return $cats;
+    }
+    
+    public function save(PropelPDO $con = null) {
+        if (in_array(PersonPeer::IMAGE, $this->modifiedColumns)) {
+            // Re-size their image now
+            //$thumbnailer = new sfThumbnail(null, 200);
+            $thumbnailer = new sfThumbnail(200, 200, false, true, 75, 'sfImageMagickAdapter', array('method' => 'shave_bottom'));
+            $thumbnailer->loadFile($this->getImageFsPath());
+            $thumbnailer->save($this->getImageFsPath());
+        }
+        
+        return parent::save($con);
     }
 } // Person
