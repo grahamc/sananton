@@ -15,18 +15,18 @@ abstract class BasePersonHashForm extends BaseFormPropel
   {
     $this->setWidgets(array(
       'person_id'  => new sfWidgetFormInputHidden(),
-      'email'      => new sfWidgetFormInputHidden(),
+      'hash'       => new sfWidgetFormInputHidden(),
       'created_at' => new sfWidgetFormDateTime(),
     ));
 
     $this->setValidators(array(
       'person_id'  => new sfValidatorPropelChoice(array('model' => 'Person', 'column' => 'id', 'required' => false)),
-      'email'      => new sfValidatorChoice(array('choices' => array($this->getObject()->getEmail()), 'empty_value' => $this->getObject()->getEmail(), 'required' => false)),
+      'hash'       => new sfValidatorChoice(array('choices' => array($this->getObject()->getHash()), 'empty_value' => $this->getObject()->getHash(), 'required' => false)),
       'created_at' => new sfValidatorDateTime(array('required' => false)),
     ));
 
     $this->validatorSchema->setPostValidator(
-      new sfValidatorPropelUnique(array('model' => 'PersonHash', 'column' => array('email')))
+      new sfValidatorPropelUnique(array('model' => 'PersonHash', 'column' => array('hash')))
     );
 
     $this->widgetSchema->setNameFormat('person_hash[%s]');

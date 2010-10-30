@@ -25,5 +25,5 @@ propel:
   person_hash:
     _attributes: { phpName: PersonHash }
     person_id: { type: INTEGER, size: '11', primaryKey: true, required: true, foreignTable: person, foreignReference: id, onDelete: CASCADE, onUpdate: CASCADE }
-    email: { type: VARCHAR, size: '255', required: true, primaryKey: true, index: unique }
+    hash: { type: VARCHAR, size: '255', required: true, primaryKey: true, index: unique }
     created_at: { type: TIMESTAMP }

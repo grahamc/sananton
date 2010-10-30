@@ -35,7 +35,7 @@ abstract class BasePersonHashFormFilter extends BaseFormFilterPropel
   {
     return array(
       'person_id'  => 'ForeignKey',
-      'email'      => 'Text',
+      'hash'       => 'Text',
       'created_at' => 'Date',
     );
   }

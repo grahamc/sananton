@@ -78,10 +78,10 @@ DROP TABLE IF EXISTS `person_hash`;
 CREATE TABLE `person_hash`
 (
 	`person_id` INTEGER(11)  NOT NULL,
-	`email` VARCHAR(255)  NOT NULL,
+	`hash` VARCHAR(255)  NOT NULL,
 	`created_at` DATETIME,
-	PRIMARY KEY (`person_id`,`email`),
-	UNIQUE KEY `person_hash_U_1` (`email`),
+	PRIMARY KEY (`person_id`,`hash`),
+	UNIQUE KEY `person_hash_U_1` (`hash`),
 	CONSTRAINT `person_hash_FK_1`
 		FOREIGN KEY (`person_id`)
 		REFERENCES `person` (`id`)
