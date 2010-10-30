@@ -19,6 +19,17 @@ test:
     param:
       classname:  DebugPDO
 
+prod:
+  propel:
+    class:        sfPropelDatabase
+    param:
+      classname:  PropelPDO
+      dsn:        mysql:dbname=sananton;host=localhost
+      username:   sananton
+      password:   .io
+      encoding:   utf8
+      persistent: false
+      pooling:    true
 all:
   propel:
     class:        sfPropelDatabase
