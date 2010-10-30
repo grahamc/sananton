@@ -21,6 +21,15 @@ class Person extends BasePerson {
         return $this->getName();
     }
     
+    public function createHash() {
+        $hash = new PersonHash();
+        $hash->setPerson($this);
+        $hash->setHash(md5(rand() . time() . uniqid()));
+        $hash->save();
+        
+        return $hash;
+    }
+    
     /**
      * Get the filesystem image path
      */

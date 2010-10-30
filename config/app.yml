@@ -1,3 +1,6 @@
 all:
   website_name: SANANTON.IO
   help_link: 'http://twitter.com/itrebal'
+  email:
+    from: itrebal@gmail.com
+    name: SANANTON.IO

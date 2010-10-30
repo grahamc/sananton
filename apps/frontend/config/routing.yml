@@ -16,6 +16,14 @@ people_by_category:
     requirements:
       sf_method: get
       
+person_validate:
+    url: /validate/:hash
+    class: sfPropelRoute
+    options: { model: PersonHash, type: object }
+    param: { module: person, action: validate }
+    requirements:
+      sf_method: get
+      
 person_new:
     url: /join
     param: { module: person, action: new }

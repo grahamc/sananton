@@ -1,6 +1,24 @@
 <?php
 class personActions extends sfActions {
+    /**
+     * Validate the person
+     */
+    public function executeValidate(sfWebRequest $request) {
+        $this->hash = $this->getRoute()->getObject();
+        $this->forward404If($this->hash->isUsed(), 'Your link has been used, sorry.');
+        
+        $p = $this->hash->getPerson();
+        $p->setValidatedAt(time());
+        $p->save();
+        $this->hash->makeUsed();
+        
+        $this->getUser()->setFlash('success', 'Congratulations, ' . $this->hash->getPerson() . '! You\'re on!');
+        $this->redirect('@homepage');
+    }
     
+    /**
+     * Edit actions
+     */
     public function executeNew(sfWebRequest $request) {
         $this->form = new PersonForm();
         $this->form->setDefault('website', 'http://');
@@ -12,6 +30,12 @@ class personActions extends sfActions {
         
         if ($this->form->isValid()) {
             $person = $this->form->save();
+            
+            $hash = $person->createHash();
+            $msg = new PersonValidationMessage($hash);
+            $this->getMailer()->send($msg);
+            
+            $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the validation link.');
             $this->redirect('@homepage');
         }
         
@@ -20,7 +44,7 @@ class personActions extends sfActions {
     
     public function executeEdit(sfWebRequest $request) {
         $this->hash = $this->getRoute()->getObject();
-        $this->forward404If($this->hash->isValid(), 'Hash has expired.');
+        $this->forward404If($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
         $this->form = new PersonForm($this->hash->getPerson());
         $this->setTemplate('new');
@@ -28,7 +52,7 @@ class personActions extends sfActions {
     
     public function executeSave(sfWebRequest $request) {
         $this->hash = $this->getRoute()->getObject();
-        $this->forward404If($this->hash->isValid(), 'Hash has expired.');
+        $this->forward404If($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
         $this->form = new PersonForm($this->hash->getPerson());
         $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
