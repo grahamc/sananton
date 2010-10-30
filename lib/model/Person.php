@@ -38,6 +38,7 @@ class Person extends BasePerson {
     }
     
     public function getImageWebPath() {
+        return 'http://www.gravatar.com/avatar/' . md5(strtolower(trim($this->getEmail()))) . '.jpg?s=200&d=404';
         return '/uploads/people/' . $this->getImage();
     }
     
