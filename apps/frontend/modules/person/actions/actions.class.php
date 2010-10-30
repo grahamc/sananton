@@ -16,6 +16,22 @@ class personActions extends sfActions {
         $this->redirect('@homepage');
     }
     
+    public function executeRequestEdit(sfWebRequest $request) {
+        if ($request->hasParameter('email')) {
+            $email = $request->getParameter('email');
+            $person = PersonPeer::getByEmail($email);
+            $this->forward404Unless($person instanceof Person, 'Invalid email address, sorry.');
+        
+            $hash = $person->createHash();
+        
+            $msg = new PersonEditMessage($hash);
+            $this->getMailer()->send($msg);
+            
+            $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the edit link.');
+            $this->redirect('@homepage');
+        }
+    }
+    
     /**
      * Edit actions
      */
@@ -44,7 +60,7 @@ class personActions extends sfActions {
     
     public function executeEdit(sfWebRequest $request) {
         $this->hash = $this->getRoute()->getObject();
-        $this->forward404If($this->hash->isValid(), 'Your edit link has expired, sorry.');
+        $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
         $this->form = new PersonForm($this->hash->getPerson());
         $this->setTemplate('new');
@@ -52,7 +68,7 @@ class personActions extends sfActions {
     
     public function executeSave(sfWebRequest $request) {
         $this->hash = $this->getRoute()->getObject();
-        $this->forward404If($this->hash->isValid(), 'Your edit link has expired, sorry.');
+        $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
         $this->form = new PersonForm($this->hash->getPerson());
         $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));

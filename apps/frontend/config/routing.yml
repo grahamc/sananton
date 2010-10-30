@@ -2,6 +2,10 @@
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
 # default rules
+person_edit_request:
+    url: /request
+    param: { module: person, action: requestEdit }
+      
 homepage:
   url:   /
   param: { module: person, action: list }

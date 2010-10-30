@@ -1,0 +1,15 @@
+If you don't know what this is, check out:
+ - prtlnd.com (the original)
+ - nshvll.org (the copycat)
+ - wshngtndc.org (the fork)
+
+And then look at http://sananton.io for the live version of this.
+
+REQUIREMENTS
+This requires ImageMagick's `convert` command to be in the path.
+
+INSTALLING
+1) Edit config/databases.yml and setup your database credentials.
+2) Edit your config/app.yml and change the settings to your own.
+3) Run `./symfony propel:insert-sql` to build your schema.
+4) Run `./symfony propel:data-load` to load the basic data.

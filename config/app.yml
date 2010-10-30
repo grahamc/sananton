@@ -5,5 +5,5 @@ all:
   website_name: SANANTON.IO
   help_link: 'http://twitter.com/itrebal'
   email:
-    from: itrebal@gmail.com
+    from: no-reply@sananton.io
     name: SANANTON.IO

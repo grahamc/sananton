@@ -22,7 +22,7 @@
 
         <div id="footer"> 
             <div id="footer-inner"> 
-                <p class="footer-links"><?php echo link_to('Get Listed', '@person_new'); ?> | <?php echo link_to('Edit Your Listing', 'http://example.com/'); ?></p> 
+                <p class="footer-links"><?php echo link_to('Get Listed', '@person_new'); ?> | <?php echo link_to('Edit Your Listing', '@person_edit_request'); ?></p> 
                 <p class="byline">
                     Stolen by <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?>
                     from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>
