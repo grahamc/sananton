@@ -3,6 +3,7 @@ class personActions extends sfActions {
     
     public function executeNew(sfWebRequest $request) {
         $this->form = new PersonForm();
+        $this->form->setDefault('website', 'http://');
     }
     
     public function executeCreate(sfWebRequest $request) {

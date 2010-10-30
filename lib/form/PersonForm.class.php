@@ -31,10 +31,18 @@ class PersonForm extends BasePersonForm
           'image/x-png'),
           'path' => sfConfig::get('sf_upload_dir').'/people',
         )));
+        
+        $this->setValidator('email', new sfValidatorEmail());
+        $this->setValidator('website', new sfValidatorUrl());
       
       // Prettify the categories
       $this->widgetSchema->setLabel('person_category_list', 'What are you?');
       $this->getWidget('person_category_list')->setOption('expanded', true);
+      
+      $this->getValidator('person_category_list')->setOption('required', true);
+      $this->getValidator('person_category_list')->setOption('max', 3);
+      $this->getValidator('person_category_list')->setOption('min', 1);
+      $this->getValidator('person_category_list')->setMessage('required', 'You must choose at least one option.');
       
       // Setup the post validators with pretty messages
       $this->validatorSchema->setPostValidator(
