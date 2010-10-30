@@ -15,7 +15,7 @@ abstract class BasePersonFormFilter extends BaseFormFilterPropel
       'name'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'website'              => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'email'                => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'image'                => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'image'                => new sfWidgetFormFilterInput(),
       'validated_at'         => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'created_at'           => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'updated_at'           => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),

@@ -30,7 +30,7 @@ abstract class BasePersonForm extends BaseFormPropel
       'name'                 => new sfValidatorString(array('max_length' => 255)),
       'website'              => new sfValidatorString(array('max_length' => 255)),
       'email'                => new sfValidatorString(array('max_length' => 255)),
-      'image'                => new sfValidatorString(array('max_length' => 255)),
+      'image'                => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'validated_at'         => new sfValidatorDateTime(array('required' => false)),
       'created_at'           => new sfValidatorDateTime(array('required' => false)),
       'updated_at'           => new sfValidatorDateTime(array('required' => false)),

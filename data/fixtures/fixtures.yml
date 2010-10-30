@@ -4,7 +4,6 @@ Person:
     name: 'Graham Christensen'
     website: 'http://grahamc.com'
     email: graham@grahamc.com
-    image: graham_christensen.jpg
     validated_at: '2010-10-28'
   Person_2:
     name: 'Bob Johnson'
