@@ -35,7 +35,7 @@ class personActions extends sfActions {
         
         if ($this->form->isValid()) {
             $person = $this->form->save();
-            $this->hash->delete();
+            $this->hash->makeUsed();
             $this->redirect('@homepage');
         }
         

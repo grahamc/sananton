@@ -33,6 +33,7 @@ class PersonHash extends BasePersonHash {
     
     public function makeUsed() {
         $this->setUsed(1);
+        $this->save();
     }
     
     public function __toString() {
