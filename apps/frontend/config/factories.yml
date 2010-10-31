@@ -25,28 +25,26 @@ test:
       delivery_strategy: none
 
 dev:
-  mailer:
-    param:
-      delivery_strategy: single_address
-      delivery_address: 'vidluther@me.com'
+  # mailer:
+  #     param:
+  #       delivery_strategy: single_address
+  #       delivery_address: 'vidluther@me.com'
 
 all:
   mailer:
+    class: sfMailer
     param:
+      logging:           %SF_LOGGING_ENABLED%
+      charset:           %SF_CHARSET%
       delivery_strategy: realtime
-      spool_class: Swift_PropelSpool
-      spool_arguments: [ MailMessage, message, getSpooledMessages ]
-      logging: %SF_LOGGING_ENABLED%
-      charset: %SF_CHARSET%
       transport:
         class: Swift_SmtpTransport
         param:
-          host: smtp.sendgrid.net
-          port: 25
+          host:       smtp.sendgrid.net
+          port:       25
           encryption: ~
-          username: vid@zippykid.com
-          password: testing
-
+          username:   vid@zippykid.com
+          password:   testing
   routing:
     class: sfPatternRouting
     param:
@@ -58,12 +56,3 @@ all:
     param:
       cache_key_use_vary_headers: true
       cache_key_use_host_name:    true
-  mailer:
-    class: sfMailer
-    param:
-      delivery_strategy: spool
-      spool_class:       Swift_FileSpool
-      spool_arguments:   [ %SF_CACHE_DIR%/mail/ ]
-      transport:
-        class: Swift_MailTransport
-
