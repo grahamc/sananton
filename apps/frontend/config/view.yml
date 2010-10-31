@@ -11,7 +11,7 @@ default:
     description:  A nice way to find techs in san antonio texas. 
     #keywords:     symfony, project
     #language:     en
-    #robots:       index, follow
+    robots:       index, follow
 
   stylesheets:
     - 'reset.css?<?php echo time(); ?>'
