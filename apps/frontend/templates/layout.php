@@ -13,7 +13,7 @@
     <body root="<?php echo sfConfig::get('app_root_url'); ?>">
         <div id="container">
             <h1 class="main_h1"><?php echo link_to(sfConfig::get('app_website_name'), '@homepage'); ?></h1>
-            <h1 class="sub_h1">tech community</h1>
+            <h1 class="sub_h1">community</h1>
             <div class="clear"></div>
                         
             <?php if ($sf_user->hasFlash('error')): ?>
