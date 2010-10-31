@@ -36,8 +36,8 @@ all:
     param:
       classname:  PropelPDO
       dsn:        mysql:dbname=sananton;host=localhost
-      username:   root
-      password:   
+      username:   sananton
+      password:   .io
       encoding:   utf8
       persistent: true
       pooling:    true
