@@ -45,7 +45,7 @@ all:
           port: 25
           encryption: ~
           username: vid@zippykid.com
-          password: 
+          password: testing
 
   routing:
     class: sfPatternRouting
