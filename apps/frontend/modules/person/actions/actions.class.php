@@ -118,7 +118,9 @@ class personActions extends myActions {
         } else {
             $this->multiple_pages = false;
         }
+
         
+
         // Serve the JavaScript version if we need to
         if ($request->isXmlHttpRequest()) {
             $this->setTemplate('listJS');            
