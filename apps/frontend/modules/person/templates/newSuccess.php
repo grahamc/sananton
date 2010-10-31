@@ -7,7 +7,7 @@ if ($form->getObject()->isNew()) {
 ?>
 <h1 class="add_listing">Add Yourself</h1>
 
-<p>Everything but your pictures is uploaded. If you don't upload a photo, we will use Gravatar instead.</p>
+<p>Everything but your pictures is required.  If you don't upload a photo, we will use Gravatar instead.</p>
 <form action="<?php echo url_for($route); ?>" class="new_member" enctype="multipart/form-data" id="new_member" method="post">
 <?php if (!$form->getObject()->isNew()) { ?>
     <input type="hidden" name="sf_method" value="put" />

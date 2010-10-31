@@ -6,6 +6,19 @@
 #     param:
 #       level:   err
 #       loggers: ~
+prod:
+  storage:
+    class: sfCacheSessionStorage
+    param:
+      session_name: sanantonio #[required] name of session to use
+      session_cookie_path: / #[required] cookie path
+      session_cookie_domain: sananton.io #[required] cookie domain
+      session_cookie_lifetime: +30 days #[required] liftime of cookie
+      session_cookie_secure: false #[required] send only if secure connection
+      session_cookie_http_only: true #[required] accessible only via http protocol
+      cache: 
+        class: sfAPCCache #[required] define the cache strategy
+        param: ~ #[required] this empty key is required or you will get warnings
 test:
   storage:
     class: sfSessionTestStorage

@@ -96,17 +96,29 @@ class personActions extends myActions {
         $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
         $c->add(PersonCategoryPeer::CATEGORY_ID, $this->category->getId());
         
-        $this->renderList($request, $c);
+		$category_name = $this->category->getName(); 
+
+        $this->renderList($request, $c, $category_name);
     }
     
-    public function renderList(sfWebRequest $request, Criteria $c = null) {
+
+    public function renderList(sfWebRequest $request, Criteria $c = null, $category = null) {
+		/** if the category is not null, we modify the response object and change the page title **/
+		
+		if(!is_null($category)) {
+			$response = $this->getResponse(); 
+			$response->setTitle($category . 's in San Antonio, Texas'); 
+		}
+		
+
         $this->per_page = 15;
         
         $this->page = $request->getParameter('page', 1);
         
         $this->people = PersonPeer::getActiveByPage($this->page, $this->per_page, $c);
         
-        
+
+
         $counts = PersonPeer::countActive($c);
         
         // Calculate the number of photos displayed on previous pages
