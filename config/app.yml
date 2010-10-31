@@ -1,7 +1,7 @@
 prod:
   base_url: 'http://sananton.io'
 all:
-  base_url: 'http://sananton.com'
+  base_url: 'http://sanantonio.com'
   website_name: SANANTON.IO
   help_link: 'http://twitter.com/itrebal'
   email:

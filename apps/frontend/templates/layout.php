@@ -31,13 +31,28 @@
             <div id="footer-inner"> 
                 <p class="footer-links"><?php echo link_to('Get Listed', '@person_new'); ?> | <?php echo link_to('Edit Your Listing', '@person_edit_request'); ?></p> 
                 <p class="byline">
-                    Stolen by <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?>
-                    from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>
-                    who was inspired by <?php echo link_to('prtlnd.com', 'http://prtlnd.com', array('target' => '_blank')); ?>.
+                    Developed by <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?>
+                    inspired by <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?>
                     By the way, I'm on <?php echo link_to('Github', 'http://github.com/grahamc/sananton'); ?>.
-					<?php echo link_to('Hosting by ZippyKid', 'http://zippykid.com'); ?>
+					<?php echo link_to('Hosted by ZippyKid', 'http://zippykid.com'); ?>
                 </p>
             </div>
         </div>
+
+<script type="text/javascript">
+var zippyclick = { log: function(){ return; }, goal: function(){ return; }};
+var zippyclick_site_id = 66349120;
+(function() {
+  var s = document.createElement('script');
+  s.type = 'text/javascript';
+  s.async = true;
+  s.src = 'http://stats.zippykid.com/js';
+  ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+})();
+</script>
+<a title="" href="http://stats.zippykid.com/66349120"></a>
+<noscript><p><img alt="ZippyKid Clicks" width="1" height="1" src="http://stats.zippykid.com/66349120ns.gif" /></p></noscript> 
+
+
     </body>
 </html>
