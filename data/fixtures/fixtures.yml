@@ -7,7 +7,7 @@ Person:
     validated_at: '2010-10-28'
   Person_2:
     name: 'Bob Johnson'
-    website: 'http://foo.com'
+    website: 'http://www.rhodes.edu/7619.asp'
     email: graham@bvar.com
     image: bob_johnson.gif
     validated_at: '2010-10-28'
