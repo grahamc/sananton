@@ -35,24 +35,18 @@ class personActions extends myActions {
     /**
      * Edit actions
      */
-    public function executeNew(sfWebRequest $request) {
-        $this->form = new PersonForm();
-        $this->form->setDefault('website', 'http://');
-    }
-    
     public function executeCreate(sfWebRequest $request) {
-        $this->form = new PersonForm();
-        $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+        $r = $this->processForm();
         
-        if ($this->form->isValid()) {
-            $person = $this->form->save();
-            
-            $hash = $person->createHash();
+        if ($r instanceof Person) {
+            $hash = $r->createHash();
             $msg = new PersonValidationMessage($hash);
             $this->getMailer()->send($msg);
             
             $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the validation link.');
             $this->redirect('@homepage');
+        } else {
+            $this->form = $r;
         }
         
         $this->setTemplate('new');
@@ -62,7 +56,7 @@ class personActions extends myActions {
         $this->hash = $this->getRoute()->getObject();
         $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
-        $this->form = new PersonForm($this->hash->getPerson());
+        $this->form = $this->processForm($this->hash->getPerson());
         $this->setTemplate('new');
     }
     
@@ -70,16 +64,39 @@ class personActions extends myActions {
         $this->hash = $this->getRoute()->getObject();
         $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
-        $this->form = new PersonForm($this->hash->getPerson());
-        $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
-        
-        if ($this->form->isValid()) {
-            $person = $this->form->save();
+        $r = $this->processForm($this->hash->getPerson());
+        if ($r instanceof Person) {
             $this->hash->makeUsed();
             $this->redirect('@homepage');
+        } else {
+            $this->form = $r;
         }
         
         $this->setTemplate('new');
+    }
+    
+    /**
+     * Create and save if necessary a PersonForm based on a $person
+     *
+     * @param Person $person optional
+     * @return PersonForm|Person
+     */
+    protected function processForm(Person $person = null) {
+        $request = $this->getRequest();
+        
+        $form = new PersonForm($person);
+        $form->setDefault('website', 'http://');
+        
+        if (in_array($request->getRequestMethod(), array('PUT', 'POST')) {
+            $form->bind($request->getParameter($form->getName()),
+                        $request->getFiles($form->getName()));
+            
+            if ($form->isValid()) {
+                return $form->save();
+            }
+        }
+        
+        return $form;
     }
     
     /**
