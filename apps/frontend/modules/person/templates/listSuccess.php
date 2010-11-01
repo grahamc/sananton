@@ -1,7 +1,7 @@
 <?php include_partial('person/categories', array('category' => isset($category)?$category:null)); ?>
 
 <p class="edit_listing">
-    <?php echo link_to('Get Listed  &rarr;', '@person_create'); ?>
+    <?php echo link_to('+ Add Yourself  &rarr;', '@person_create'); ?>
 </p>
 
 <div class="clear"></div>

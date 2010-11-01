@@ -3,6 +3,7 @@ prod:
 all:
   base_url: 'http://sananton.dev'
   website_name: SANANTON.IO
+  location: 'San Antonio, Tx'
   help_link: 'http://twitter.com/itrebal'
   email:
     from: no-reply@sananton.io
