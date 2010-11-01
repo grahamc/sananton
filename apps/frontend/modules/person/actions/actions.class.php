@@ -49,7 +49,7 @@ class personActions extends myActions {
             $this->form = $r;
         }
         
-        $this->setTemplate('new');
+        $this->setTemplate('create');
     }
     
     public function executeEdit(sfWebRequest $request) {
@@ -57,7 +57,7 @@ class personActions extends myActions {
         $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
         
         $this->form = $this->processForm($this->hash->getPerson());
-        $this->setTemplate('new');
+        $this->setTemplate('create');
     }
     
     public function executeSave(sfWebRequest $request) {
@@ -72,7 +72,7 @@ class personActions extends myActions {
             $this->form = $r;
         }
         
-        $this->setTemplate('new');
+        $this->setTemplate('create');
     }
     
     /**
@@ -87,7 +87,7 @@ class personActions extends myActions {
         $form = new PersonForm($person);
         $form->setDefault('website', 'http://');
         
-        if (in_array($request->getRequestMethod(), array('PUT', 'POST')) {
+        if (in_array($request->getRequestMethod(), array('PUT', 'POST'))) {
             $form->bind($request->getParameter($form->getName()),
                         $request->getFiles($form->getName()));
             
