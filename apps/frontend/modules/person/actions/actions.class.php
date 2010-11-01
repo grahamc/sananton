@@ -16,6 +16,7 @@ class personActions extends myActions {
      * Create their profile
      */
     public function executeCreate(sfWebRequest $request) {
+        $this->forward404If($this->getUser()->isAuthenticated(), 'Woops! You are already logged in.');
         $r = $this->processForm();
         
         if ($r instanceof Person) {
@@ -74,7 +75,6 @@ class personActions extends myActions {
         $request = $this->getRequest();
         
         $form = new PersonForm($person);
-        $form->setDefault('website', 'http://');
         
         if (in_array($request->getMethod(), array('PUT', 'POST'))) {
             $form->bind($request->getParameter($form->getName()),

@@ -50,6 +50,7 @@ class PersonForm extends BasePersonForm
         
         $this->setValidator('email', new sfValidatorEmail());
         $this->setValidator('website', new sfValidatorUrl());
+        $this->getWidget('website')->setDefault('http://');
       
       // Prettify the categories
       $this->widgetSchema->setLabel('person_category_list', 'What are you?');
