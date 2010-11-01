@@ -29,7 +29,7 @@
 
         <div id="footer"> 
             <div id="footer-inner"> 
-                <p class="footer-links"><?php echo link_to('Get Listed', '@person_new'); ?> | <?php echo link_to('Edit Your Listing', '@person_edit_request'); ?></p> 
+                <p class="footer-links"><?php echo link_to('Get Listed', '@person_create'); ?> | <?php echo link_to('Edit Your Listing', '@person_edit_request'); ?></p> 
                 <p class="byline">
                     By <?php echo link_to('Graham Christensen', 'http://grahamc.com/', array('target' => '_blank')); ?> |
                     Forked from <?php echo link_to('Travis Roberts', 'http://travisonrails.com/', array('target' => '_blank')); ?> |

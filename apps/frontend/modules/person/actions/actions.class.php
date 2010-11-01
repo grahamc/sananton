@@ -87,7 +87,7 @@ class personActions extends myActions {
         $form = new PersonForm($person);
         $form->setDefault('website', 'http://');
         
-        if (in_array($request->getRequestMethod(), array('PUT', 'POST'))) {
+        if (in_array($request->getMethod(), array('PUT', 'POST'))) {
             $form->bind($request->getParameter($form->getName()),
                         $request->getFiles($form->getName()));
             

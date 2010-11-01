@@ -28,17 +28,9 @@ person_validate:
     requirements:
       sf_method: get
       
-person_new:
-    url: /join
-    param: { module: person, action: new }
-    requirements:
-      sf_method: get
-      
 person_create:
-    url: /join/save
+    url: /join
     param: { module: person, action: create }
-    requirements:
-      sf_method: post
       
 person_edit:
     url:   /edit/:hash
