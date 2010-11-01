@@ -2,9 +2,21 @@
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 
 # default rules
-person_edit_request:
+
+login:
+    url: /login/:hash
+    class: sfPropelRoute
+    options: { model: PersonHash, type: object }
+    param: { module: authenticate, action: login }
+
+logout:
+    url: /logout
+    param: { module: authenticate, action: logout }
+
+
+authenticate_request:
     url: /request
-    param: { module: person, action: requestEdit }
+    param: { module: authenticate, action: request }
       
 homepage:
   url:   /
@@ -21,9 +33,7 @@ people_by_category:
       sf_method: get
       
 person_validate:
-    url: /validate/:hash
-    class: sfPropelRoute
-    options: { model: PersonHash, type: object }
+    url: /validate
     param: { module: person, action: validate }
     requirements:
       sf_method: get
@@ -33,26 +43,22 @@ person_create:
     param: { module: person, action: create }
       
 person_edit:
-    url:   /edit/:hash
-    class: sfPropelRoute
-    options: { model: PersonHash, type: object }
+    url:   /edit
     param: { module: person, action: edit }
     requirements:
       sf_method: get
       
 person_save:
-    url:   /save/:hash
-    class: sfPropelRoute
-    options: { model: PersonHash, type: object }
+    url:   /save
     param: { module: person, action: save }
     requirements:
       sf_method: put
 
 # generic rules
 # please, remove them by adding more specific rules
-default_index:
-  url:   /:module
-  param: { action: index }
+#default_index:
+#  url:   /:module
+#  param: { action: index }
 
-default:
-  url:   /:module/:action/*
+#default:
+#  url:   /:module/:action/*

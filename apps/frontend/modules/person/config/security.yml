@@ -1,0 +1,6 @@
+validate:
+    is_secure: true
+edit:
+    is_secure: true
+save:
+    is_secure: true

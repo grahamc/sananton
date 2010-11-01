@@ -21,6 +21,10 @@ class Person extends BasePerson {
         return $this->getName();
     }
     
+    public function isValidated() {
+        return (bool)$this->getValidatedAt();
+    }
+    
     public function createHash() {
         $hash = new PersonHash();
         $hash->setPerson($this);

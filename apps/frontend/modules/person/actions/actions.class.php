@@ -1,39 +1,19 @@
 <?php
 class personActions extends myActions {
     /**
-     * Validate the person
+     * Validate the person and then log out
      */
     public function executeValidate(sfWebRequest $request) {
-        $this->hash = $this->getRoute()->getObject();
-        $this->forward404If($this->hash->isUsed(), 'Your link has been used, sorry.');
-        
-        $p = $this->hash->getPerson();
+        $p = $this->getUser()->getPerson();
         $p->setValidatedAt(time());
         $p->save();
-        $this->hash->makeUsed();
         
-        $this->getUser()->setFlash('success', 'Congratulations, ' . $this->hash->getPerson() . '! You\'re on!');
-        $this->redirect('@homepage');
-    }
-    
-    public function executeRequestEdit(sfWebRequest $request) {
-        if ($request->hasParameter('email')) {
-            $email = $request->getParameter('email');
-            $person = PersonPeer::getByEmail($email);
-            $this->forward404Unless($person instanceof Person, 'No such email address, sorry.');
-        
-            $hash = $person->createHash();
-        
-            $msg = new PersonEditMessage($hash);
-            $this->getMailer()->send($msg);
-            
-            $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the edit link.');
-            $this->redirect('@homepage');
-        }
+        $this->getUser()->setFlash('success', 'Congratulations, ' . $this->getUser()->getPerson() . '! You\'re on!');
+        $this->redirect('@logout');
     }
     
     /**
-     * Edit actions
+     * Create their profile
      */
     public function executeCreate(sfWebRequest $request) {
         $r = $this->processForm();
@@ -52,22 +32,31 @@ class personActions extends myActions {
         $this->setTemplate('create');
     }
     
+    /**
+     * Display the form to create their profile
+     */
     public function executeEdit(sfWebRequest $request) {
-        $this->hash = $this->getRoute()->getObject();
-        $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
-        
-        $this->form = $this->processForm($this->hash->getPerson());
+        $this->form = $this->processForm($this->getUser()->getPerson());
         $this->setTemplate('create');
     }
     
+    /**
+     * Save the changes to their profile and log out if successful
+     */
     public function executeSave(sfWebRequest $request) {
-        $this->hash = $this->getRoute()->getObject();
-        $this->forward404Unless($this->hash->isValid(), 'Your edit link has expired, sorry.');
+        $original_image = $this->getUser()->getPerson()->getImage();
         
-        $r = $this->processForm($this->hash->getPerson());
+        $r = $this->processForm($this->getUser()->getPerson());
         if ($r instanceof Person) {
-            $this->hash->makeUsed();
-            $this->redirect('@homepage');
+            
+            // Cute success message
+            if ($r->getImage() !== $original_image) {
+                $this->getUser()->setFlash('success', 'Alright, you\'re the new, prettier, you.');
+            } else {
+                $this->getUser()->setFlash('success', 'Thanks, ' . $r . ' - good to hear from you.');
+            }
+            
+            $this->forward('authenticate', 'logout');
         } else {
             $this->form = $r;
         }
@@ -76,7 +65,7 @@ class personActions extends myActions {
     }
     
     /**
-     * Create and save if necessary a PersonForm based on a $person
+     * Create and save (if necessary) a PersonForm based on a $person
      *
      * @param Person $person optional
      * @return PersonForm|Person

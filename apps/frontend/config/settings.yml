@@ -24,6 +24,9 @@ test:
 
 all:
   .settings:
+    login_module:          authenticate
+    login_action:          request
+    
     # Form security secret (CSRF protection)
     csrf_secret:            8433cc2aff188f2ccc6c55d31295ecacf629da57
 

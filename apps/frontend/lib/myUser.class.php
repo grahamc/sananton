@@ -29,7 +29,9 @@ class myUser extends sfBasicSecurityUser
      */
     public function signOut() {
         // Invalidate the token
-        $this->hash->makeUsed();
+        if ($this->getHash() instanceof PersonHash) {
+            $this->getHash()->makeUsed();
+        }
         
         // Remove their information
         $this->hash = null;
@@ -42,7 +44,7 @@ class myUser extends sfBasicSecurityUser
      * @return Person|false[if not logged in]
      */
     public function getPerson() {
-        if (!$this->isAuthenticated()) {
+        if (!$this->getHash()) {
             return false;
         }
         
@@ -51,11 +53,30 @@ class myUser extends sfBasicSecurityUser
     
     /**
      * Get the PersonHash object which is currently logged in
-     * @return Personhash|falsep[if not logged in]
+     * @return Personhash|false[if not logged in]
      */
     public function getHash() {
         if (!$this->isAuthenticated()) {
             return false;
+        }
+        
+        if ($this->hash === null) {
+            return $this->retrieveHash();
+        }
+        
+        return $this->hash;
+    }
+    
+    /**
+     * Load the hash object for the logged in user on subsequent requests
+     * Sign them out if the hash is old or invalidated
+     *
+     * @return PersonHash|false[upon failure]
+     */
+    protected function retrieveHash() {
+        $this->hash = PersonHashPeer::retrieveByPk($this->getAttribute('hash'));
+        if (!$this->hash instanceof PersonHash || !$this->hash->isValid()) {
+            $this->signOut();
         }
         
         return $this->hash;
