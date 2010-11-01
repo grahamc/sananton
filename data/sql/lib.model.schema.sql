@@ -81,8 +81,9 @@ CREATE TABLE `person_hash`
 	`hash` VARCHAR(255)  NOT NULL,
 	`used` TINYINT default 0 NOT NULL,
 	`created_at` DATETIME,
-	PRIMARY KEY (`person_id`,`hash`),
+	PRIMARY KEY (`hash`),
 	UNIQUE KEY `person_hash_U_1` (`hash`),
+	INDEX `person_hash_FI_1` (`person_id`),
 	CONSTRAINT `person_hash_FK_1`
 		FOREIGN KEY (`person_id`)
 		REFERENCES `person` (`id`)

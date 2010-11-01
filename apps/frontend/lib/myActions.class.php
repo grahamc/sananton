@@ -5,15 +5,19 @@ abstract class myActions extends sfActions {
      */
     public function preExecute() {
         $r = $this->getRequest();
-        if ($r->hasParameter('hash')) {
-            $hash = $r->getParameter();
+        
+        $hash = $r->getUrlParameter('hash'); // Has no hasUrlParameter
+        if ($hash !== null) {
             $ph = PersonHashPeer::retrieveByPk($hash);
-            if ($ph instanceof PersonHash && $ph->isValid()) {
-                $this->getUser()->signIn($ph);
-            } else {
-                $this->getUser()->setFlash('Sorry, that hash has been used.');
-                $this->redirect('@homepage');
+            if ($ph instanceof PersonHash) {
+                if ($this->getUser()->signIn($ph)) {
+                    return true;
+                }
             }
+            
+            // If a hash was passed and it isn't valid, continue
+            $this->getUser()->setFlash('Sorry, that hash has been used.');
+            $this->redirect('@homepage');
         }
     }
     
