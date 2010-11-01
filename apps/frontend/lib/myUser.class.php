@@ -3,6 +3,12 @@
 class myUser extends sfBasicSecurityUser
 {
     /**
+     * The hash used for the current user
+     * @var PersonHash
+     */
+    protected $hash = null;
+    
+    /**
      * Log in as a hash if the hash is valid
      * @return bool
      */
@@ -34,8 +40,9 @@ class myUser extends sfBasicSecurityUser
     /**
      * Get the Person record currently logged in
      * @return Person|false[if not logged in]
+     */
     public function getPerson() {
-        if ($this->isAuthenticated()) {
+        if (!$this->isAuthenticated()) {
             return false;
         }
         
@@ -47,7 +54,7 @@ class myUser extends sfBasicSecurityUser
      * @return Personhash|falsep[if not logged in]
      */
     public function getHash() {
-        if ($this->isAuthenticated()) {
+        if (!$this->isAuthenticated()) {
             return false;
         }
         
