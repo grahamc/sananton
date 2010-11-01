@@ -7,13 +7,17 @@ class authenticateActions extends myActions {
         if ($request->hasParameter('email')) {
             $email = $request->getParameter('email');
             $person = PersonPeer::getByEmail($email);
-            $this->forward404Unless($person instanceof Person, 'No such email address, sorry.');
-        
+            
+            if (!$person instanceof Person) {
+                $this->getUser()->setFlash('error', 'That email address doesn\'t seem to exist. Want to try that again?');
+                return sfView::SUCCESS;
+            }
+            
             // Send them a login link
             $hash = $person->createHash();
             $msg = new PersonEditMessage($hash);
             $this->getMailer()->send($msg);
-            
+
             $this->getUser()->setFlash('success', 'Almost there! Just check your email address and click the edit link.');
             $this->redirect('@homepage');
         }
