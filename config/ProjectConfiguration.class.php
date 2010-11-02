@@ -9,5 +9,6 @@ class ProjectConfiguration extends sfProjectConfiguration
   {
     $this->enablePlugins('sfPropelPlugin');
     $this->enablePlugins('sfThumbnailPlugin');
+    $this->enablePlugins('sfPHPUnit2Plugin');
   }
 }
