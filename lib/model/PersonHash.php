@@ -17,26 +17,46 @@
  * @package    lib.model
  */
 class PersonHash extends BasePersonHash {
+    /**
+     * Get the hash's string
+     * @return string
+     */
+    public function __toString() {
+        return $this->getHash();
+    }
+    
+    /**
+     * Check if the hash is valid by age or usage
+     * @return bool
+     */
     public function isValid() {
-        if ($this->isUsed()) {
-            return false;
-        } elseif ($this->getCreatedAt('U') < strtotime('-30 minutes')) {
+        if ($this->isUsed() || $this->isOld()) {
             return false;
         } else {
             return true;
         }
     }
     
+    /**
+     * Check if 
+     */
     public function isUsed() {
         return (bool) $this->getUsed();
     }
     
+    /**
+     * If the hash is old (ie: 30 minutes old)
+     * @return bool
+     */
+    public function isOld() {
+        return (bool) ((int)$this->getCreatedAt('U') < strtotime('-30 minutes'));
+    }
+    
+    /**
+     * Mark the hash as used
+     */
     public function makeUsed() {
         $this->setUsed(1);
         $this->save();
-    }
-    
-    public function __toString() {
-        return $this->getHash();
     }
 } // PersonHash

@@ -57,7 +57,7 @@ class unit_PersonTest extends BaseTestModel
       $m->save();
       
       list($width, $height) = getimagesize($m->getImageFSPath());
-      $this->assertEquals(200, $width);
-      $this->assertEquals(200, $height);
+      $this->assertEquals(200, $width, 'Saving a Person should resize the width to 200px.');
+      $this->assertEquals(200, $height, 'Saving a Person should resize the height to 200px.');
   }
 }
