@@ -5,6 +5,6 @@ class unit_strtolowerTest extends sfPHPUnitBaseTestCase
 {
   public function testDefault()
   {
-      $this->assertEquals('foo', strtolower('FOO'));
+      $this->assertEquals('fOo', strtolower('FOO'));
   }
 }
