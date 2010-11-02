@@ -17,10 +17,18 @@
  * @package    lib.model
  */
 class Person extends BasePerson {
+    
+    /**
+     * Get the name of the person
+     */
     public function __toString() {
         return $this->getName();
     }
     
+    /**
+     * If the user is validated or not, and if it should display
+     * on the homepage.
+     */
     public function isValidated() {
         return (bool)$this->getValidatedAt();
     }

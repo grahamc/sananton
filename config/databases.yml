@@ -18,6 +18,7 @@ test:
   propel:
     param:
       classname:  DebugPDO
+      dsn: mysql:dbname=sanantestio;host=localhost
 
 all:
   propel:
