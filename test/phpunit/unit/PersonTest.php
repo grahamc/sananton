@@ -53,7 +53,7 @@ class unit_PersonTest extends BaseTestModel
   
   public function testResizeOnSave() {
       $m = new Person();
-      $m->setImage('resources/sinatra.jpg');
+      $m->setImage('sinatra.jpg');
       $m->save();
       
       list($width, $height) = getimagesize($m->getImageFSPath());
