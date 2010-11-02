@@ -44,8 +44,13 @@ class Person extends BasePerson {
     
     /**
      * Get the filesystem image path
+     * @return string|null[with no image]
      */
     public function getImageFsPath() {
+        if ($this->getImage() === null) {
+            return null;
+        }
+        
         return sfConfig::get('sf_upload_dir') . '/people/' . $this->getImage();
     }
     
