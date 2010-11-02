@@ -40,4 +40,14 @@ class unit_PersonTest extends BaseTestModel
       $m->setImage($img);
       $this->assertContains($img, $m->getImageWebPath(), 'A user with an image should use that image.');
   }
+  
+  public function testGetCategories() {
+      $m = PersonPeer::doSelectOne(new Criteria());
+      $this->assertTrue($m instanceof Person);
+      
+      $this->assertEquals(2, count($m->getCategories()), 'The first record should have two records.');
+      foreach ($m->getCategories() as $cat) {
+          $this->assertTrue($cat instanceof Category, 'All results should be a Category object.');
+      }
+  }
 }
