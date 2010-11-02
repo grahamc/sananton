@@ -50,4 +50,14 @@ class unit_PersonTest extends BaseTestModel
           $this->assertTrue($cat instanceof Category, 'All results should be a Category object.');
       }
   }
+  
+  public function testResizeOnSave() {
+      $m = new Person();
+      $m->setImage('resources/sinatra.jpg');
+      $m->save();
+      
+      list($width, $height) = getimagesize($m->getImageFSPath());
+      $this->assertEquals(200, $width);
+      $this->assertEquals(200, $height);
+  }
 }
