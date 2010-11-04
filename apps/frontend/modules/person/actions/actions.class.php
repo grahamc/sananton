@@ -90,16 +90,21 @@ class personActions extends myActions {
     }
     
     public function executeListByCategory(sfWebRequest $request) {
-        $this->category = $this->getRoute()->getObject();
+        $category = $this->getRoute()->getObject();
         
-        $c = new Criteria();
-        $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
-        $c->add(PersonCategoryPeer::CATEGORY_ID, $this->category->getId());
-        
-        $this->renderList($request, $c);
+        $this->renderList($request, $category);
     }
     
-    public function renderList(sfWebRequest $request, Criteria $c = null) {
+    public function renderList(sfWebRequest $request, Category $category) {
+        if ($category instanceof Category) {
+            $this->getResponse()->setTitle($category->getName() . 's in ' . sfConfig::get('app_location'));
+            $this->category = $category;
+            
+            $c = new Criteria();
+            $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
+            $c->add(PersonCategoryPeer::CATEGORY_ID, $this->category->getId());
+        }
+        
         $this->per_page = 15;
         
         $this->page = $request->getParameter('page', 1);
