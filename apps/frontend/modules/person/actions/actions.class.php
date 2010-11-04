@@ -95,14 +95,16 @@ class personActions extends myActions {
         $this->renderList($request, $category);
     }
     
-    public function renderList(sfWebRequest $request, Category $category) {
+    public function renderList(sfWebRequest $request, Category $category = null) {
         if ($category instanceof Category) {
             $this->getResponse()->setTitle($category->getName() . 's in ' . sfConfig::get('app_location'));
             $this->category = $category;
             
             $c = new Criteria();
             $c->addJoin(PersonPeer::ID, PersonCategoryPeer::PERSON_ID);
-            $c->add(PersonCategoryPeer::CATEGORY_ID, $this->category->getId());
+            $c->add(PersonCategoryPeer::CATEGORY_ID, $category->getId());
+        } else {
+            $c = null;
         }
         
         $this->per_page = 15;
