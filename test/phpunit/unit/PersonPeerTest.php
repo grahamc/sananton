@@ -25,18 +25,19 @@ class unit_PersonPeerTest extends BaseTestModel
   
   public function testGetActive() {
       $ps = PersonPeer::getActive();
-      $this->assertEquals(2, count($ps), 'There should only be two active users.');
+      $this->assertEquals(31, count($ps), 'There should only be two active users.');
       
       foreach ($ps as $p) {
           $this->assertTrue($p instanceof Person, 'All results should be a Person object.');
+		  $this->assertTrue($p->isValidated(), 'All results should be validated.');
       }
   }
   
   public function testCountActive() {
-      $this->assertEquals(2, PersonPeer::countActive(), 'Starts at 2 active users');
+      $this->assertEquals(31, PersonPeer::countActive(), 'Starts at 2 active users');
       
       $this->createInactiveUser();
-      $this->assertEquals(2, PersonPeer::countActive(), 'Adding another inactive user should not increase the number.');
+      $this->assertEquals(31, PersonPeer::countActive(), 'Adding another inactive user should not increase the number.');
   }
   
   protected function createInactiveUser() {
