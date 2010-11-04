@@ -1,4 +1,3 @@
-
 Person:
   Person_1:
     name: 'Graham Christensen'
@@ -11,7 +10,14 @@ Person:
     email: graham@bvar.com
     image: bob_johnson.gif
     validated_at: '2010-10-28'
-
+<?php for ($i = 0; $i < 30; $i++): ?>
+  Person_<?php echo $i + 2; ?>:
+    name: 'Bob Johnson <?php echo $i + 2; ?>'
+    website: 'http://www.rhodes.edu/7619.asp?<?php echo $i + 2; ?>'
+    email: bob@johnson<?php echo $i + 2; ?>.com
+    image: bob_johnson.gif
+    validated_at: '2010-10-28'
+<?php endfor; ?>
 Category:
   Category_1:
     name: Blogger
@@ -54,4 +60,8 @@ PersonCategory:
   PersonCategory_1_8:
     person_id: Person_1
     category_id: Category_8
-
+<?php for ($i = 0; $i < 30; $i++): ?>
+  PersonCategory_<?php echo ($i + 2); ?>_1:
+    person_id: Person_<?php echoLn($i + 2); ?>
+    category_id: Category_1
+<?php endfor; ?>

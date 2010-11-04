@@ -5,11 +5,20 @@
 } ?>
 </div>
 <?php end_slot(); ?>
+<?php slot('paginator'); ?>
+<p class="more">
+		<?php if (isset($category)): ?>
+			<?php echo link_to('Show Me More', '@people_by_category?slug=' . $category->getSlug() . '&page=' . ($page + 1)); ?>
+		<?php else: ?>
+			<?php echo link_to('Show Me More', '@homepage?page=' . ($page + 1)); ?>
+		<?php endif; ?>
+</p>
+<?php end_slot(); ?>
 
 
 $('#members').append(<?php echo json_encode(get_slot('append')); ?>);
 <?php if ($multiple_pages) { ?>
-$('#pagination').html("  <p class=\"more\">\n    <a href=\"/person/list?page=<?php echo ($page + 1); ?>\">Show Me More<\/a>\n  <\/p>\n");
+$('#pagination').html(<?php echo json_encode(get_slot('paginator')); ?>);
 <?php } else { ?>
 $('#pagination').html("");    
 <?php } ?>

@@ -17,7 +17,11 @@
 <div id="pagination">
 <?php if ($multiple_pages) { ?>
     <p class="more">
-        <a href="/person/list?page=2">Show Me More</a>
+		<?php if (isset($category)): ?>
+			<?php echo link_to('Show Me More', '@people_by_category?slug=' . $category->getName() . '&page=2'); ?>
+		<?php else: ?>
+			<?php echo link_to('Show Me More', '@homepage?page=2'); ?>
+		<?php endif; ?>
     </p>
 <?php } ?>
 </div>
