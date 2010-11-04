@@ -8,7 +8,7 @@ class personActions extends myActions {
         $p->setValidatedAt(time());
         $p->save();
         
-        $this->getUser()->setFlash('success', 'Congratulations, ' . $this->getUser()->getPerson() . '! You\'re on!');
+        $this->getUser()->setFlash('success', 'Congratulations ' . $this->getUser()->getPerson() . ', you\'re on!');
         $this->redirect('@logout');
     }
     
@@ -45,24 +45,18 @@ class personActions extends myActions {
      * Save the changes to their profile and log out if successful
      */
     public function executeSave(sfWebRequest $request) {
-        $original_image = $this->getUser()->getPerson()->getImage();
-        
         $r = $this->processForm($this->getUser()->getPerson());
         if ($r instanceof Person) {
             
             // Cute success message
-            if ($r->getImage() !== $original_image) {
-                $this->getUser()->setFlash('success', 'Alright, you\'re the new, prettier, you.');
-            } else {
-                $this->getUser()->setFlash('success', 'Thanks, ' . $r . ' - good to hear from you.');
-            }
-            
-            $this->forward('authenticate', 'logout');
+			$this->getUser()->setFlash('success', 'How about we double check your work?');
+			
+			$this->person = $r;
+			$this->setTemplate('check');
         } else {
             $this->form = $r;
+			$this->setTemplate('create');
         }
-        
-        $this->setTemplate('create');
     }
     
     /**

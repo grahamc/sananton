@@ -6,7 +6,6 @@ if ($form->getObject()->isNew()) {
 }
 ?>
 <h1 class="add_listing">Add Yourself</h1>
-
 <p>Everything but your picture is required. If you don't upload a photo, we will use Gravatar instead.</p>
 <form action="<?php echo url_for($route); ?>" class="new_member" enctype="multipart/form-data" id="new_member" method="post">
 <?php if (!$form->getObject()->isNew()) { ?>
@@ -23,5 +22,5 @@ if ($form->getObject()->isNew()) {
 <?php } ?>
 <p class="submit">
     <input id="member_submit" name="commit" type="submit" value="Submit" />
-  </p>
+</p>
 </form>

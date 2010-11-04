@@ -80,3 +80,13 @@ input[type="file"] { color:#000; font-size:14px; margin:10px 0 0 0; }
 #success { background-color:#E6EFC2; color:#264409; border-color:#C6D880; }
 #error a { border:1px solid #8A1F11; color:#8A1F11; }
 #success a { border:1px solid #264409; color:#264409; }
+
+.split_left {
+	width: 55%;
+	float: left;
+}
+
+.split_right {
+	width: 40%;
+	float: right;
+}
